@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>The overlooked effect of amplitude on within-speaker vowel variation</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Joshua Wilson Black, Jen Hay, Lynn Clark, James Brand" />
+    <meta name="date" content="2022-07-11" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: top, title-slide
+
+.title[
+# The overlooked effect of amplitude on within-speaker vowel variation
+]
+.author[
+### Joshua Wilson Black, Jen Hay, Lynn Clark, James Brand
+]
+.date[
+### 11 July 2022
+]
+
+---
+
+
+
+
+# The Team
+
+This research was carried out by **Joshua Wilson Black**, **Jen Hay**, 
+**Lynn Clark**, and **James Brand**.
+
+This work is part of the project _Towards an Improved Theory of Language Change_,
+based at the New Zealand Institute of Language, Brain and Behaviour | Te Kāhui
+Roro Reo at the University of Canterbury | Te Whare Wānanga o Waitaha.
+
+We gratefully acknowledge the support of the Marsden Fund | 
+Te Pūtea Rangahau a Marsden.
+
+.left[![](images/Marsden-logo-RGB-150.png)]
+
+_Application number: (17-UOC-049)_
+
+???
+
+Contributions:
+Joshua Wilson Black: primary analysis, write up.
+Jen Hay: research direction, write up.
+Lynn Clark: research direction.
+James Brand: pilot work on interval representation of data.
+
+---
+
+# Overview
+
+Our **problem**:
+
+Research on style _predicts_ systematic covariation of linguistic variables 
+as a result of shifts in speaker style (e.g. Podesva 2008), and _invites_ 
+the development of quantitative methods to explore any such covariation (e.g. Tamminga 2021).
+
+Our **method**:
+
+To extend Brand et al.'s [(2021)](https://www.sciencedirect.com/science/article/pii/S0095447021000711#ak005) use of PCA from _across_-speaker variation  
+to _within_-speaker variation.
+
+Our **results**:
+
+1. Relative amplitude has a significant and under-appreciated impact on speaker vowel spaces.
+  - Revealed by covariation in first formant values.
+  - Known in experimental environments with introduction of loud background noise, not known for naturalistic recordings in a quiet environment.
+2. Amplitude is used, potentially agentively, to mark position within topical subsections of monologues.
+
+???
+
+The literature on style both _predicts_ covariation of linguistic variables and
+_invites_ methodological developments so that we can get a quantitative handle
+on such covariation. Evaluating the predictions depends on the development
+of appropriate methods.
+
+Previous work on the project (by all authors but Wilson Black), showed that
+Principal Component Analysis is an appropriate methods for finding vowel
+covariation across speakers. We attempt to push
+a similar method in order to explore within-speaker covariation.
+
+We did not find stylistic covariation. However, we did find a surprising and, 
+we argue, overlooked, source of covariation in amplitude. We find that first
+formant values pattern together with amplitude.
+
+While this is known in certain laboratory environments, and is particularly
+associated with loud speech and/or distant interlocutors, it has not been shown
+in the kind of naturalistic recordings which sociolinguists are often interested
+in.
+
+Second, we found that variation in amplitude is being used, possibly on purpose,
+by speakers to mark their position in sub-topic segments of our recordings. This
+is a potential link with literature on, say, turn-taking, where amplitude is a
+variable which can be used to signal that one is finished or not in a dialogue.
+
+We didn't solve our problem, but our results are of interest nonetheless!
+
+We will discuss the first of these results here, but are happy to talk about the
+second if that is of interest.
+
+---
+
+# Our Data: Quakebox
+
+.pull-left[
+![](images/QuakeBox.jpg)
+&lt;figcaption&gt;Source: Waynne Williams (Port Hills Productions)&lt;/figcaption&gt;
+]
+
+.pull-right[
+- 431 single-speaker monologues
+- Prompt: "tell us your earthquake story".
+- 277 speakers with topic tagging.
+- Stored as LaBB-CAT instance, with forced alignment via HTK.
+- Extract using LaBB-CAT interface to Praat:
+  - F1 and F2 for all monophthongs at midpoint of _token_,
+  - Maximum amplitude of _word_ in which monophthong token appears,
+  - Articulation rate of _utterance_ in which monophthong token appears.
+]
+
+???
+
+Our data comes from the QuakeBox corpus (Clark et al., 2016). 
+The corpus has 431 speakers who freely respond to the prompt 'tell us your
+earthquake story'. The recordings are made with high quality audio and video
+equipment.
+ 
+The corpus contains topic tagging for a subset of speakers. These tags indicate
+whether the speaker is talking about, say, the September 2010 Earthquake, or
+the larger February 2011 Earthquake, or their life before the earthquakes etc.
+
+The corpus is stored in LaBB-CAT and run through HTK forced alignment (Fromont
+and Hay, 2008). LaBB-CAT also interfaces with Praat.
+
+If it comes up **filtering details** are given as an additional slide at the
+end of the deck.
+
+---
+
+# PCA Analysis
+
+.pull-left[
+![](images/var_plot.png)
+&lt;figcaption&gt;Data from Brand et al. (2021)&lt;/figcaption&gt;
+]
+
+.pull-right[
+- Principal Component Analysis (PCA) finds structural relationships (PCs) between variables.
+- PCs are _new variables_ which more compactly represent the original data.
+    - e.g. PC1 and PC2 in plot above capture relationships between the named variables.
+- PCs can reveal systemic patterns in sound change
+- Plot on left is a _variable plot_.
+  - Axes are PCs, arrows are original variables.
+  - e.g. PC1: &lt;span style="font-variant: small-caps;"&gt;strut&lt;/span&gt; and &lt;span style="font-variant: small-caps;"&gt;fleece&lt;/span&gt; go one way, &lt;span style="font-variant: small-caps;"&gt;thought&lt;/span&gt; goes the other.
+]
+
+???
+
+The example is a simplified version of two PCs in Brand et al. 2021. These are
+from the ONZE corpus and represent structure in large scale across-speaker 
+change in NZE.
+
+Can the same methods work _within_ speakers?
+
+---
+
+# Within-Speaker PCA: Intervals
+
+.pull-left[
+![](images/interval_detail.png)
+&lt;figcaption&gt;Data from two monophthongs against 240 second intervals.&lt;/figcaption&gt;
+]
+
+.pull-right[
+- **Problem:** to move _within_ monologues, we need multiple observations per speaker.
+- **Simple solution:** divide monologue into intervals and take means.
+- How long?:
+  - need enough tokens of each monophthong, but
+  - long intervals will miss covariation at shorter time scales.
+- Two lengths: 60s and 240s.
+]
+
+???
+
+The observations need to be _complete_. That is, we need an entry for each
+of our variables (formants, amplitude, and articulation rate for each vowel).
+
+The interval solution is not the only possible solution. We tried more
+sophisticated methods (representing each vowel with a GAMM, for instance), but
+these proved very difficult to get a handle on (for a sense of why see Meredith
+Tamminga's recent paper in _Social Meaning and Linguistic Variation_ (2021).).
+
+The figure on the left is a zoomed in section of a larger plot of all of the
+data for a single speaker. The two rows are the first formant values for 
+two different vowels. The points are the frequencies of tokens of the vowel.
+The filled in squares are the intervals, with values represented by the shade,
+with more red intervals having higher mean values and more blue intervals having
+lower mean values.
+
+Note that different vowels have quite different frequencies. These are 240 second
+intervals, and one of the vowels only has one token!
+
+More detail on **imputation process** given in additional slide at end of deck.
+
+Worth noting here that 240 second intervals require almost no imputation,
+whereas the 60 second intervals require quite a bit.
+
+---
+
+# Speaker Example
+
+![](images/QB_NZ_F_369_combined.png)
+
+???
+
+This depicts all of the data (with exception of articulation rate) for a single
+speaker. We have both interval lengths, both F1 and F2, all vowels, and
+amplitude.
+
+Note that amplitude seems to be gradually reducing.
+
+An intuitive way to think of our PCA analysis is that seeks to find associations
+between the patterns of colour in these variables.
+
+---
+
+# PCA Results: 60 Seconds
+
+.center[.large-image[
+![](images/var_plot_60.png)
+]]
+
+- **PC1:** F1s and amplitude pattern together.
+- **PC2:** A strong F1-F2 relationship in GOOSE. structure.
+- F1-F2 relationships are not covariation between monophthongs.
+
+???
+
+We jump straight to the PCA. This analysis is the result of putting all of the
+60 second intervals into PCA. It is thus an attempt to see _within speaker_
+patterns which are about to be characterised _across_ speakers. Any patterns
+we find are patterns in the corpus at large, but they are patterns which apply
+_within_ monologues.
+
+We will here present only the results for the 60
+second intervals. The 240 second intervals give the same kind of **PC1**.
+
+PC2 the easiest to use to indicate how to read variable plots. PC2 indicates one
+pattern in the data: when GOOSE F2 goes up, GOOSE F1 goes down, and vice versa.
+We are not interested in PC2 otherwise, though: it is not a relationship
+_between_ vowels.
+
+PC1 is our main phenomenon. Note all F1 on the right, along with amplitude.
+PC1 says that one ingredient in the data is F1s moving together with amplitude.
+Incidentally, our initial PCA _did not include_ amplitude. This PCA analysis
+was an initial attempt to _explain_ F1 variation.
+
+**240s Intervals and results of permutation test given as additional slide at end.**
+
+---
+
+# Amplitude and F1
+
+.center[.medium-image[
+![](images/f1_amp.png)
+]]
+
+- GAMM model of F1 with predictors:
+  - amplitude, articulation rate, pitch, time through monologue.
+- Random effects: Speaker, and vowel by speaker.
+- Amplitude by far largest predictor of variation.
+- In general: increase with amplitude.
+- Some vowels discernible at one amplitude but not another.
+
+
+???
+
+To further confirm our claim that amplitude drives systematic covariation of F1,
+we fit a GAMM model with:
+
+- Response: F1 (non-scaled)
+- Predictors:
+  - Amplitude (scaled by speaker),
+  - Articulation rate (same),
+  - Pitch (same),
+  - Time through monologue (on scale [0, 1])
+- Random effects:
+  - Speaker: fit the mean F1 for the speaker.
+  - Vowel by Speaker: fit the mean F1 for each vowel for a given speaker.
+  - **i.e.**: random effects capture each speakers mean vowel space.
+- Each predictor had a smooth fit for each vowel.
+
+All variables come up as significant by model comparison significance test, but
+amplitude **far and away** the strongest effect. 
+**Addition at end: sig test scores.**
+
+We already see with the last point, some consequences for the nature of the
+nature of the vowel space. We see this more in the next slide.
+
+---
+
+# Amplitude and Vowel Space
+
+.medium-image[.center[
+![](images/amp_art.gif)
+]]
+
+- Same GAMM fit to F2 and used to plot model predictions.
+- Articulation rate is known to contract vowel space.
+  - ...and is often controlled for.
+- But relative amplitude has a larger effect!
+- Note that &lt;span style="font-variant:small-caps;"&gt;goose&lt;/span&gt; and &lt;span style="font-variant:small-caps;"&gt;thought&lt;/span&gt; F2 also involved.
+
+???
+
+These plots assume that the non-varied variables maintain average values and
+that we are at the mid point of a monologue.
+
+**Addition at end:** embedded vowel space Shiny for exploration of different
+intervals.
+
+---
+
+# Consequences
+
+1. Natural amplitude variation in quiet environments correlates with F1.
+  - Previously shown in lab environments and with introduction of background noise.
+  - Amplitude variation in natural speech _larger_ than in controlled environments.
+
+2. Challenges for investigation of within speaker stylistic covariation.
+  - Amplitude variation needs to be controlled to find other sources of covariation.
+  - Reported claims of F1 covariation which don't include amplitude are challenged.
+
+3. Challenges for investigation of across speaker covariation.
+  - Handling differences in amplitude when comparing speakers is non-trivial!
+  - A minimal step: include a measure of amplitude in regression models.
+  
+4. Amplitude variation related to topic structure.
+  - Amplitude variation part of phonetic account of discourse structure.
+  - Apparent increase in amplitude at beginning of topic and decline at end.
+
+???
+
+Regarding 1: 24dB variation in our data vs. 10db variation in quiet vs. loud
+environment study (Liénard &amp; Di Benedetto 1999).
+
+
+Regarding 2:
+
+Priming work by Villarreal &amp; Clark mentioned as study which might have
+benefited from including amplitude.
+
+Regarding 3:
+
+Differences in recording equipment make this very difficult. No objective measure
+forthcoming for most of the data we work with. 
+
+The proposal to include _relative_ amplitude also insufficient if speakers have
+been recorded entirely within a high or low amplitude span of speech. This 
+creates serious problems for comparing speakers with one another.
+
+Regarding 4: 
+
+- Link to turn-taking literature ('manage the flow of talk' Local 2007).
+- Very hard to model given that the effect we're claiming is a reduction in
+amplitude over time _in addition to_ the reduction which occurs in the monologue
+as a whole. We apply a few different methods to this question, all of which point
+in the same direction. But this needs to be explored further.
+
+---
+class: title-slide
+
+# Thank you!
+
+---
+
+# Additional: Filtering
+
+.center[.full-image[![](images/filtering_flow.png)]]
+
+---
+
+# Additional: Imputation
+
+.medium-image[
+![](images/missing_interval_rate_plot.png)
+]
+
+Exclude &lt;span style = "font-variant: small-caps;"&gt;foot&lt;/span&gt;, then
+1. accept 60 second intervals with 7 monophthong types (&amp; 240s intervals with nine).
+2. if no data for monophthong, we impute the mean value.
+3. if one or two tokens, we add two mean tokens to the interval, then take the interval mean.
+
+???
+
+**NB:** No imputation required for amplitude or articulation rate.
+
+---
+
+# Additional: 240s Intervals
+
+.full-image[
+![](images/var_plot_240.png)
+]
+
+---
+
+# Additional: PCA Permutation Test
+
+.medium-image[
+![](images/permutation_test.png)
+]
+
+- Permutation method: scramble time variable in original dataset.
+  - Maintains F1-F2 link _within_ vowel.
+  - Removes temporal covariation _between_ vowels.
+- y-axis: amount of variance explained by PC.
+- Blue: 1000 permuted data -&gt; PCA runs.
+- Red: Real PCA results.
+
+---
+
+# Additional: Model Significance
+
+- We generate p-values by a `\(\chi^2\)` model comparison.
+
+&lt;div&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+    &lt;th style="text-align:left;"&gt;
+    Variable
+    &lt;/th&gt;
+    &lt;th style="text-align:left;"&gt;
+    p-value
+    &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style="text-align:left;"&gt;Time&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt;6.382e-08&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style="text-align:left;"&gt;Articulation Rate&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt;1.051e-13&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style="text-align:left;"&gt;Amplitude&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt;&amp;lt; 2e-16&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style="text-align:left;"&gt;Pitch&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt;&amp;lt; 2e-16&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+---
+
+# Additional: Shiny Interactive
+
+&lt;iframe src="https://joshuawilsonblack.shinyapps.io/space_similarity_app/" height="550" width="100%" style="border: 1px solid #464646;" data-external="1"&gt;&lt;/iframe&gt;
+
+---
+
+
+# Additional: Topics
+
+.medium-image[.center[
+![](images/topic_examples.png)
+]]
+
+- Is amplitude variation within a monologue just fatigue-driven gradual decline 
+or is it *used* by speakers for other purposes?
+- We use QuakeBox topic tags to investigate whether amplitude marks changes in
+topic.
+- We explore this by dividing topics into beginning, middle, and end and fitting a linear mixed model.
+
+???
+
+We do not find any strong evidence that our F1 co-variation is agentive (as
+say, stylistic co-variation would be). But is amplitude variation being used
+agentively.
+
+We don't have much in our corpus to get a handle on this question, but we 
+_do_ have the topic tags. These give us structure within out monologues which
+speakers ought to be somewhat aware of, and which might have some connection
+with amplitude variation.
+
+The plot here shows amplitude data for six distinct topics within the same 
+speaker. Note that we ignore the specific content of these topics. 
+
+We do a bit of additional filtering not discussed here, but note that topic 5 
+does not have enough data in the middle to be included. (We require five 
+points per section).
+
+---
+
+# Additional: Topics
+
+- We control for overall decrease in amplitude over monologue by adding a
+term for time through monologue.
+- We fit a random slope for each speaker and for the parts of each topic in
+the dataset.
+
+&lt;div&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+    &lt;th style="text-align:left;"&gt;
+    Variable
+    &lt;/th&gt;
+    &lt;th style="text-align:left;"&gt;
+    Estimate
+    &lt;/th&gt;
+    &lt;th style="text-align:left;"&gt;
+    Std. Error
+    &lt;/th&gt;
+    &lt;th style="text-align:left;"&gt;
+    t-value
+    &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style="text-align:left;"&gt;Beginning&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt;0.05&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt;0.01&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt;3.46&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style="text-align:left;"&gt;Middle&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt; -0.024 &lt;/td&gt;
+      &lt;td style="text-align:left;"&gt;0.02&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt; -1.10 &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style="text-align:left;"&gt;End&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt; -0.10 &lt;/td&gt;
+      &lt;td style="text-align:left;"&gt; 0.02 &lt;/td&gt;
+      &lt;td style="text-align:left;"&gt; -5.28 &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style="text-align:left;"&gt;Time&lt;/td&gt;
+      &lt;td style="text-align:left;"&gt; -0.24 &lt;/td&gt;
+      &lt;td style="text-align:left;"&gt; 0.06 &lt;/td&gt;
+      &lt;td style="text-align:left;"&gt; -3.99 &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+- Coefficient for 'Time' indicates a gradual decline in amplitude.
+- Other coefficients indicate a shift from the mean value.
+- We have an increase in amplitude at the beginning of topics, and a larger
+decrease at the end.
+- t-values higher than 2 are taken to indicate 'surprise'.
+- Rise in amplitude at beginning and decline at end of topics is not explained by gradual decrease in amplitude.
+
+???
+
+We don't fit random intercepts because speaker data is z-scored. Our random
+effect structure treats each topic as a random effect, allowing each part 
+to vary independently. It also treats each speaker as having a more or less
+extreme change in amplitude over the course of the monologue.
+
+I've not discussed the t-value test we carry out in the paper here. This is
+given as an **additional slide**.
+
+---
+
+# Additional: Topics
+
+.full-image[.center[
+![](images/lmm-topics.png)
+]]
+
+???
+
+This plot displays predictions from the model for each topic in the data set.
+
+The effect does look quite subtle, but it is there.
+
+---
+
+
+# Additional: Fake Topic Test
+
+.large-image[.center[
+![](images/t_values.png)
+]]
+
+- t-values obtained for real topics of extreme magnitude compared to
+distribution of 1000 'fake topics'.
+
+???
+
+We generate fake topics by, for each speaker, collecting the lengths of their
+topics, and then selecting random chunks of their monologue of the same length.
+
+This is done, and the modelling step repeated, 1000 times. The distributions
+depicted here are the distribution of t-values from models fit on the fake
+topics.
+
+&lt;!-- ## Amplitude and the Vowel Space --&gt;
+
+&lt;!-- - Some further consequences: --&gt;
+&lt;!--     - Normalisation methods which assume a consistent vowel space for each speaker might be affected by within-speaker amplitude variation. --&gt;
+&lt;!--     - Sociolinguistic effects might look different depending on amplitude of sample speech. --&gt;
+&lt;!-- - Control is difficult: --&gt;
+&lt;!--     - In almost all cases, true amplitude can't be retrieved from signal. --&gt;
+&lt;!--     - Even if true amplitude known, difference in effect on each vowel is also a challenge.  --&gt;
+
+&lt;!-- ## Amplitude and Topical Structure --&gt;
+
+&lt;!-- &lt;div class="columns-2"&gt; --&gt;
+
+
+
+&lt;!-- &lt;p class='forceBreak'&gt;&lt;/p&gt; --&gt;
+
+&lt;!-- - Do amplitude changes correspond to structural features of monologues? --&gt;
+&lt;!-- - QuakeBox allows us to explore this for topical spans within monologues. --&gt;
+&lt;!-- - We take topical sections on monologues ignoring their specific content. --&gt;
+&lt;!-- - We divide each topic into three: beginning, middle, and end. --&gt;
+&lt;!-- - Topics with less than five tokens in any part are removed. --&gt;
+
+&lt;!-- &lt;/div&gt; --&gt;
+
+&lt;!-- ## Amplitude and Topic Model {.build} --&gt;
+
+&lt;!-- - We fit a linear mixed model. --&gt;
+&lt;!--     - Amplitude as dependent variable. --&gt;
+&lt;!--     - Part of topic, and time through monologue as fixed effects, --&gt;
+&lt;!--     - Random slope for each part of each topic and on time through monologue for each speaker. --&gt;
+&lt;!-- - Results: --&gt;
+
+&lt;!-- &lt;div&gt; --&gt;
+&lt;!-- &lt;table&gt; --&gt;
+&lt;!--   &lt;thead&gt; --&gt;
+&lt;!--     &lt;tr&gt; --&gt;
+&lt;!--     &lt;th style="text-align:left;"&gt; --&gt;
+&lt;!--     Variable --&gt;
+&lt;!--     &lt;/th&gt; --&gt;
+&lt;!--     &lt;th style="text-align:left;"&gt; --&gt;
+&lt;!--     Estimate --&gt;
+&lt;!--     &lt;/th&gt; --&gt;
+&lt;!--     &lt;th style="text-align:left;"&gt; --&gt;
+&lt;!--     t-value --&gt;
+&lt;!--     &lt;/th&gt; --&gt;
+&lt;!--     &lt;/tr&gt; --&gt;
+&lt;!--   &lt;/thead&gt; --&gt;
+&lt;!--   &lt;tbody&gt; --&gt;
+&lt;!--     &lt;tr&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;Beginning&lt;/td&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;0.034&lt;/td&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;2.142&lt;/td&gt; --&gt;
+&lt;!--     &lt;/tr&gt; --&gt;
+&lt;!--     &lt;tr&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;Middle&lt;/td&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;-0.022&lt;/td&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;-1.154&lt;/td&gt; --&gt;
+&lt;!--     &lt;/tr&gt; --&gt;
+&lt;!--     &lt;tr&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;End&lt;/td&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;-0.116&lt;/td&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;-5.283&lt;/td&gt; --&gt;
+&lt;!--     &lt;/tr&gt; --&gt;
+&lt;!--     &lt;tr&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;Time through monologue&lt;/td&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;-0.273&lt;/td&gt; --&gt;
+&lt;!--       &lt;td style="text-align:left;"&gt;-4.150&lt;/td&gt; --&gt;
+&lt;!--     &lt;/tr&gt; --&gt;
+&lt;!--   &lt;/tbody&gt; --&gt;
+&lt;!-- &lt;/table&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+&lt;!-- - We treat t-values of magnitude greater than two as surprising. --&gt;
+&lt;!-- - A small increase in amplitude at the start and a decrease at the end of topics. --&gt;
+
+&lt;!-- ## Amplitude and Topic Model --&gt;
+
+&lt;!-- - Problem: it's hard to disentangle this from amplitude reduction over the course of a monologue. --&gt;
+&lt;!-- - This is true even when we factor in time through monologue as a variable. --&gt;
+&lt;!-- - A (partial) solution: another permutation test! --&gt;
+&lt;!--     - For each speaker, collect topic lengths. --&gt;
+&lt;!--     - Collect random span of speaker monologue of each topic length. --&gt;
+&lt;!--     - Repeat model collecting t-values and coefficients. --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- &lt;div class = "fullslide-nohead"&gt; --&gt;
+&lt;!-- ![](images/t_vals.png) --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- &lt;div class = "fullslide-nohead"&gt; --&gt;
+&lt;!-- ![](images/coefs.png) --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+&lt;!-- ## Amplitude and Topic Model --&gt;
+
+&lt;!-- - Results are consistent with  --&gt;
+&lt;!--     - Decrease in amplitude at end of topic over and above decrease over monologue. --&gt;
+&lt;!--     - Increase in amplitude at start of topic over and above decrease over monologue. --&gt;
+
+&lt;!-- # Summary --&gt;
+
+&lt;!-- ## Summary --&gt;
+
+&lt;!-- - **Analysis** --&gt;
+&lt;!--     - An attempt to extend Brand et al. (2021) to within speaker covariation of monophthongs. --&gt;
+&lt;!--     - Data representation difficult:  --&gt;
+&lt;!--         - variation in monophthong frequency. --&gt;
+&lt;!--         - variation in monologue length. --&gt;
+&lt;!-- - **Finding** --&gt;
+&lt;!--     - F1s pattern together. --&gt;
+&lt;!-- - **Explanation** --&gt;
+&lt;!--     - In line with Lombard literature: F1 increase with vocal effort. --&gt;
+&lt;!--     - We find a strong effect of amplitude on F1. --&gt;
+&lt;!--     - A consistent increase for all monophthongs but KIT. --&gt;
+&lt;!--     - This effect is of greater magnitude than effect of articulation rate. --&gt;
+&lt;!-- - **Consequences** --&gt;
+&lt;!--     - Vowel space effects of amplitude uncontrolled for and affect speaker clustering. --&gt;
+&lt;!--     - Amplitude changes seem to mark topical structures within monologues. --&gt;
+
+&lt;!-- ## Bibliography --&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

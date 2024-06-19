@@ -6,11 +6,11 @@ project:
 website:
   title: "Joshua Wilson Black"
   description: "Joshua Wilson Black's personal website."
-  favicon: images/favicon.png
+  favicon: /images/favicon.png
   twitter-card: true
   open-graph: true
   site-url: https://joshua.wilsonblack.nz
-  repo-url: https://github.com/JoshuaWilsonBlack/quarto_personal
+  repo-url: https://github.com/JoshuaWilsonBlack/quarto-personal
   repo-actions: [edit, issue]
   navbar:
     left:

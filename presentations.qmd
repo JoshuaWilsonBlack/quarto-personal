@@ -11,7 +11,7 @@ filters:
 citeproc: false
 ---
 
-<!-- Possible improvement: boldface my name following these instructions
+<!-- boldname and dociteproc are explained at
 https://www.neilwright.uk/posts/quarto-bibliography-format-name -->
 
 ::: {#refs}
