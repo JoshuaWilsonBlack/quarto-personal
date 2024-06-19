@@ -1,2 +1,5 @@
 /post /posts
 /post/*  /posts/:splat
+/slides/topic/nzlingsoc /slides/nzlingsoc-topic/
+/slides/pca/pca_presentation  /slides/pca/
+/slides/amplitude/amp-sociophonaus-3  /slides/sociophonaus-amp/
