@@ -4,7 +4,7 @@ author: "Joshua Wilson Black"
 date: "2024-06-20"
 categories:
   - quarto
-image: feature.png # actually make one.
+image: feature.gif # actually make one.
 ---
 
 I have just been through the effort of switching my academic website over from
@@ -14,9 +14,154 @@ RMarkdown and Hugo Academic --- to a [Quarto website](https://quarto.org/docs/we
 A few aspects of my process might be useful to others (and to future me), so 
 I've written them down here.
 
-All code for the website is available [here](). GITHUB REPO link
+All code for the website is available [here](https://github.com/JoshuaWilsonBlack/quarto-personal). 
 
-## The Dream
+## Initial Set Up and Theme
+
+I began with the standard ['Creating a Website' instructions](https://quarto.org/docs/websites/),
+following the RStudio instructions.
+
+As is clear from the documentation, there is a lot of moving back and forward
+between markdown files and  the `_quarto.yml` file which sets overall options
+and structure for the website.
+
+I picked the `litera` theme from the [provided options](https://bootswatch.com/)
+and created `custom.scss` to change the fonts. This is determined by the 
+following, at the end of my `_quarto.yml` file.
+```yaml
+format:
+  html:
+    theme: [litera, custom.scss]
+    css: styles.css
+    toc: true
+```
+
+The `custom.scss` file looks like this:
+```css
+/*-- scss:defaults --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Goudy+Bookletter+1911&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+
+$font-family-serif: "EB Garamond", Georgia, Cambria, "Times New Roman", Times, serif !default;
+$font-family-heading: "Goudy Bookletter 1911";
+$font-family-base: $font-family-serif;
+
+/*-- scss:rules --*/
+
+h1, h2, h3, h4, h5, h6, .menu-text, .navbar-title {
+  font-family: $font-family-heading;
+}
+
+.menu-text {
+  font-family: $font-family-heading;
+}
+```
+I load the fonts from [Google Fonts](https://fonts.google.com/). To get a 
+sense of what I wanted, I spent some time on the [Fonts in Use](https://fontsinuse.com/)
+page. I was feeling fancy, so I went with serifs for both the main text and 
+heading text. 
+
+In the `scss:defaults` section I paste in the embed code from 
+Google Fonts for EB Garamond (my base font) and Goudy Bookletter 1911 (my
+heading font). These are then assigned to variables. The `$font-family-serif`
+variable has a series of backups which I copied from another theme (I can't
+recall which). The line `$font-family-base: $font-family-serif` is the one which
+switches all the body text to EB Garamond. The `scss:rules` section contains the
+code which changes the menu text and all headings to Goudy Bookletter 1911.
+
+A few other aesthetic points are worth mentioning. I added a `favicon` (this
+is the little image which appears in the corner of tabs on your browser). This
+image should be a small square (usually something like 32x32 pixels is fine, 
+mine is a bit bigger). The image is how New Zealand appears in 
+the [Peirce quincuncial projection](https://en.wikipedia.org/wiki/Peirce_quincuncial_projection).
+This is in the `images` direction with the name `favicon.png`. This is then 
+referenced in the `_quarto.yml` file: `favicon: /images/favicon.png`. Note
+that paths should start with a forward slash. Quarto will deal with the rest.
+
+I then put a small image in the footer.
+```yaml
+website:
+  # I've skipped a few lines here.
+  page-footer:
+      center: |
+        [![](/images/logo.png)](https://paperspast.natlib.govt.nz/newspapers/AS19031024.2.47.11.6.1) 
+```
+The image is a little mascot which I discovered in my research in the [Papers Past](https://paperspast.natlip.govt.nz)
+collection. Again, the image is saved in the `images` folder. But this time the
+image is also a link to the original source using standard markdown syntax.
+
+## Structure
+
+The website structure looks like this in `_quarto.yml`:
+```yaml
+website:
+  # ...
+  navbar:
+    left:
+      - href: posts.qmd
+        text: Posts
+      - href: publications.qmd
+        text: Publications
+      - href: presentations.qmd
+        text: Presentations
+      - href: index.qmd
+        text: About
+```
+
+The order of these pages determines their order on the navigation bar of 
+the website. The `href` entries give the name of the quarto document for the
+page and the `text` entry gives the text which will appear in the menu.
+
+The bottom entry gives the ['about' page](https://quarto.org/docs/websites/website-about.html). 
+The about page provides a short bio, employment, and educational
+history along with links to various other pages and profiles. I wanted the 'about' page to be the first page you arrive at when you go to my web address (
+`joshua.wilsonblack.nz`). This is determined by the fact that it 
+is called `index.qmd`. Whatever you have in `index.qmd` will be the home page 
+of the website.
+
+The first entry is a [listing page](https://quarto.org/docs/websites/website-listings.html) for 
+blog posts (`posts.qmd`). This has a very simple structure:
+```yml
+title: "Posts"
+listing:
+  contents: posts
+  categories: true
+  sort: "date desc"
+  type: default
+  feed: true
+```
+The line `contents: posts` means posts are read from a directory called 
+`posts`. Each post has its own directory in the `posts` directory. For instance,
+this post is in the directory `posts/new-website/`. Within this directory, there
+is an `index.qmd` file with the post contents and any resources related to the
+post (images, datafiles, pdfs &c. &c.). 
+
+I didn't have many posts on my old website, so I transferred them across 
+manually. The only thing I had to do was rename the markdown files `index.qmd`
+and change the yaml options to match those available in [Quarto html documents](https://quarto.org/docs/reference/formats/html.html).
+
+I have a `presentations` and `publications` page, which contain details of...
+my presentations and publications. Both generate a fairly straight forward 
+bibliography, with my name highlighted when it appears (as is common in CVs).
+
+Another line in `_quarto.yml` is significant for the structure of the website.
+I like to host html slides on my website. You can't have quarto presentations
+_as part of_ a quarto website (or, if you can it looks difficult). The resources
+option in
+```yaml
+project:
+  type: website
+  resources: 
+    - "slides"
+```
+means that anything in the `slides` directory will be published. I can then
+generate slides elsewhere and copy across the `.html` file and any other 
+resources into a directory in `slides`. For instance, my Australian Linguistic
+Society presentation from last year is accessible at <https://joshua.wilsonblack.nz/slides/als-2023/>,
+Here I make sure the `.html` file is named `index.html`.
+
+## Wrangling
 
 It is a pain to have to write down the same information in many different places.
 This is not just an annoyance though: every time you re-enter information is 
@@ -28,16 +173,83 @@ research outputs in a single place and the information would propagate out to
 your website, your CV, your institutional profiles, and wherever else you might
 need it.
 
-Of the 
+[ORCID](https://en.wikipedia.org/wiki/ORCID) would be ideal for this. It has
+an API for reading information and can sync up with my University's research
+maangement software (Symplectic Elements). In the current version of this 
+website, I take my employment and education information from my `ORCID` 
+profile. I've done this using the [`rorcid` package](https://ciakovx.github.io/rorcid.html).
+Have a look at the code in `index.qmd`. The basic idea is to download the
+information from my ORCID profile, wrangle it into a data frame, create a 
+string in markdown format, and save this to an external file. I then load the
+file using the Quarto shortcode, e.g., `{{< include experience.md >}}`. 
 
-## The Reality
+I would like to do something similar for my publications and presentations. 
+Perhaps I could download the information, save it to a bibtex file, and then
+generate a bibliography. I haven't implemented this yet, but intend to for 
+future publications and presentations.
 
-Lua filters
+Currently, I maintain a collection for my publications and my presentations
+in [Zotero](https://www.zotero.org/) (along with the [Better BibTeX](https://retorque.re/zotero-better-bibtex/) plugin). These are exported as `.bib` files to the root directory of my website project.
 
-## Theming
+The `presentations.qmd` file provides a good example of how this works:
+```yml
+title: "Presentations"
+bibliography: presentations.bib
+csl: chicago-mod.csl
+nocite: |
+  @*
+filters: 
+  - dociteproc
+  - boldname
+  - url2slides
+citeproc: false
+```
+The `bibliography: presentations.bib` file loads the bibliography. The
+line starting `nocite:` says that _everything_ from the bibliography file should
+appear on the page. The rest is a little more tricky.
 
-What are the themes? 
+I took the default bibliography style, which conforms to the Chicago Manual of
+Style, and slightly modified it. I took the `.csl` file from [here](https://www.zotero.org/styles/chicago-author-date-16th-edition), and 
+renamed it `chicago-mod.csl`. My only change is in the `<sort>` section, as
+follows:
+```xml
+<sort>
+  <key macro="date" sort="descending"/>
+  <key macro="day-month" sort="descending"/>
+  <key variable="issued"/>
+  <key variable="title"/>
+</sort>
+```
+This means the items are sorted in reverse chronological order.
 
-## Redirection
+The final complication is the set of Lua filters, listed after `filters` and
+the option `citeproc: false`. 
+The first two are explained [here](https://www.neilwright.uk/posts/quarto-bibliography-format-name).
 
-You may have shared details ...
+The `url2slides` filter takes any url on the presentations page and converts 
+it to a hyper link with the text '[Slides]'. This looks a little neater to me.
+The key part of the Lua script looks like this:
+```lua
+if el.content[k].t == "Link" then
+        local url = el.content[k].target
+        el.content[k] = pandoc.Link("[Slides]", url)
+```
+I know basically nothing about Lua. There are nice documentation pages from Quarto
+about [Lua](https://quarto.org/docs/extensions/lua.html) and [filters](https://quarto.org/docs/extensions/filters.html).
+
+## Publishing
+
+I followed [the instructions](https://quarto.org/docs/publishing/netlify.html#publish-from-git-provider) to publish using [Netlify](https://www.netlify.com/) via GitHub.
+This means the website will update the GitHub repository has a new commit. The
+one downside is that you have to include the rendered website (everything in the
+`_site` directory in the git repository --- this can be a bit messy).
+
+One benefit of hosting the website with Netlify is that it has straight forward
+redirection rules, which can are specified in the `_redirects` file. This
+is useful to ensure that links to blog posts and slides from my previous website
+will go to the corresponding pages on the new website. These rules can be as
+simple as, e.g., `/post /posts`. This means any address with `/post` will be 
+directed to one with `/posts`. The posts folder on my old Hugo website was called
+`post`, but otherwise the urls are the same.
+
+Finally, I point the domain I registered using <metaname.net> (`wilsonblack.nz`) to the Netlify page.  
