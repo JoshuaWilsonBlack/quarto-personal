@@ -1,0 +1,18 @@
+---
+title: "Publications"
+bibliography: publications.bib
+csl: chicago-mod.csl
+nocite: |
+  @*
+filters:
+  - dociteproc
+  - boldname
+citeproc: false
+---
+
+<!-- Possible improvement: boldface my name following these instructions
+https://www.neilwright.uk/posts/quarto-bibliography-format-name -->
+
+::: {#refs}
+
+:::

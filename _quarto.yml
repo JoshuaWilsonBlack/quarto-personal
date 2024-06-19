@@ -1,0 +1,35 @@
+project:
+  type: website
+  resources: 
+    - "slides"
+
+website:
+  title: "Joshua Wilson Black"
+  description: "Joshua Wilson Black's personal website."
+  favicon: images/favicon.png
+  twitter-card: true
+  open-graph: true
+  site-url: https://joshua.wilsonblack.nz
+  repo-url: https://github.com/JoshuaWilsonBlack/quarto_personal
+  repo-actions: [edit, issue]
+  navbar:
+    left:
+      - href: posts.qmd
+        text: Posts
+      - href: publications.qmd
+        text: Publications
+      - href: presentations.qmd
+        text: Presentations
+      - href: index.qmd
+        text: About
+  page-footer:
+    center: |
+      [![](/images/logo.png)](https://paperspast.natlib.govt.nz/newspapers/AS19031024.2.47.11.6.1) 
+format:
+  html:
+    theme: [litera, custom.scss]
+    css: styles.css
+    toc: true
+
+
+

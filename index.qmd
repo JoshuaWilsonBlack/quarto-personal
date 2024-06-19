@@ -1,0 +1,138 @@
+---
+title: "Joshua Wilson Black"
+about:
+  template: trestles
+  image: /images/mugshot.png
+  links:
+    - text: "{{< fa brands orcid >}} ORCID"
+      href: https://orcid.org/my-orcid?orcid=0000-0002-8272-5763
+    - icon: github
+      text: GitHub
+      href: https://github.com/JoshuaWilsonBlack
+    - text: "{{< ai osf >}} OSF"
+      href: https://osf.io/vf6jm
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/joshua-wilsonblack/
+    - text: "{{< ai philpapers >}} PhilPeople"
+      href: https://philpeople.org/profiles/joshua-wilson-black
+    - icon: envelope-at
+      text: Email
+      href: mailto:joshua@wilsonblack.nz
+    - icon: twitter
+      text: twitter
+      href: https://twitter.com/jwilsonblack
+    - icon: mastodon
+      text: Mastodon
+      href: https://mastodon.social/@JoshBlack
+comments: false
+toc: false
+execute: 
+  warning: false
+---
+
+```{r}
+#| echo: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(rorcid)
+library(glue)
+```
+
+
+
+
+Kia ora, my name is Joshua Wilson Black. I am a lecturer at the New Zealand 
+Institute of Language, Brain and Behaviour. 
+
+My research crosses linguistics, philosophy, and digital humanities. I am
+particularly interested in the use of large corpora to understand sign usage
+in many varieties and across a range of temporal scales using contempoary
+statistical methods. In all my work 
+I try to live up to ['open science'](https://en.wikipedia.org/wiki/Open_science) 
+principles.
+
+::: callout-note
+
+'Wilson Black' is my surname. Sometimes I am incorrectly cited as 'Black, Joshua
+Wilson'. This is unfortunate but unavoidable! I also have a handful of earlier
+(pre-marriage) publications under the name 'Black'. To make matters even more
+confusing, I have occasionally thrown my middle name ('David') in to the mix.
+
+:::
+
+My current research interests include:
+
+- the quantitative identification of clusters of co-varying phonetic variables in the ONZE and QuakeBox corpora of New Zealand English, and
+- identifying participants and themes in intellectual life in digitised historical newspapers.
+
+From 2024, I am teaching a series of workshops on R, statistics, and open
+science methods. These are targeted at advanced students and NZILBB-affiliated
+researchers, but are open to all. The materials for the workshops are available
+[here](https://nzilbb.github.io/statistics_workshops/) and are constantly
+evolving. I'm very happy to receive any feedback on these materials.
+
+My PhD was in philosophy and centred on the work of Charles Peirce and this
+remains a significant interest. My 
+non-standard introduction to statistics came through trying to understand
+how statistical ideas functioned in Peirce's metaphysics and philosophy of 
+science. I have since updated my
+statistical and computational knowledge with a graduate degree in data science.
+Nonetheless, both the 'what' of my research --- the quantitative investigation of
+sign use --- and the 'how' --- open science practices --- remain Peircean in spirit.
+
+## Academic Employment
+
+```{r}
+#| echo: false
+my_employments <- orcid_employments(orcid = "0000-0002-8272-5763")
+my_employments <- bind_rows(
+  my_employments$`0000-0002-8272-5763`$`affiliation-group`$summaries
+)
+
+my_employments <- my_employments |> 
+  mutate(
+    dates = if_else(
+      is.na(`employment-summary.end-date.year.value`),
+      glue("{`employment-summary.start-date.year.value`} -"),
+      glue("{`employment-summary.start-date.year.value`} - {`employment-summary.end-date.year.value`}")
+    )
+  )
+
+formatted_entries <- glue(
+  "{my_employments$dates} | ",
+  "{my_employments$`employment-summary.role-title`} | ",
+  "{my_employments$`employment-summary.organization.name`}"
+)
+
+
+out_string <- glue_collapse(formatted_entries, sep = "\n\n")
+
+write_file(out_string, here('experience.md'))
+```
+
+{{< include experience.md >}}
+
+## Education
+
+```{r}
+#| echo: false
+my_education <- orcid_qualifications(orcid = "0000-0002-8272-5763")
+my_education <- bind_rows(
+  my_education$`0000-0002-8272-5763`$`affiliation-group`$summaries
+)
+
+formatted_entries <- glue(
+  "{my_education$`qualification-summary.end-date.year.value`} | ",
+  "{my_education$`qualification-summary.role-title`} | ",
+  "{my_education$`qualification-summary.organization.name`}"
+)
+
+
+out_string <- glue_collapse(formatted_entries, sep = "\n\n")
+
+write_file(out_string, here('education.md'))
+```
+
+{{< include education.md >}}

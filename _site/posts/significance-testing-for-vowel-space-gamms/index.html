@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joshua Wilson Black">
+<meta name="dcterms.date" content="2022-08-30">
+<meta name="description" content="Checking GAMM models, significance tests, and visualisation for by-vowel models.">
+
+<title>Joshua Wilson Black - Model Check and Significance Testing for Vowel Space GAMMs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Joshua Wilson Black - Model Check and Significance Testing for Vowel Space GAMMs">
+<meta property="og:description" content="Checking GAMM models, significance tests, and visualisation for by-vowel models.">
+<meta property="og:image" content="https://joshua.wilsonblack.nz/posts/significance-testing-for-vowel-space-gamms/feature.jpg">
+<meta property="og:site_name" content="Joshua Wilson Black">
+<meta name="twitter:title" content="Joshua Wilson Black - Model Check and Significance Testing for Vowel Space GAMMs">
+<meta name="twitter:description" content="Checking GAMM models, significance tests, and visualisation for by-vowel models.">
+<meta name="twitter:image" content="https://joshua.wilsonblack.nz/posts/significance-testing-for-vowel-space-gamms/feature.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Joshua Wilson Black</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../publications.html"> 
+<span class="menu-text">Publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../presentations.html"> 
+<span class="menu-text">Presentations</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#model-fit-again" id="toc-model-fit-again" class="nav-link" data-scroll-target="#model-fit-again">Model Fit (Again)</a></li>
+  <li><a href="#using-gam.check" id="toc-using-gam.check" class="nav-link" data-scroll-target="#using-gam.check">Using <code>gam.check</code></a></li>
+  <li><a href="#significance-testing" id="toc-significance-testing" class="nav-link" data-scroll-target="#significance-testing">Significance Testing</a>
+  <ul class="collapse">
+  <li><a href="#p-values-for-by-factor-smooths-from-the-model-summary" id="toc-p-values-for-by-factor-smooths-from-the-model-summary" class="nav-link" data-scroll-target="#p-values-for-by-factor-smooths-from-the-model-summary">P-Values for By-Factor Smooths from the Model Summary</a></li>
+  <li><a href="#plotting-significance-of-by-factor-smooths-in-vowel-space" id="toc-plotting-significance-of-by-factor-smooths-in-vowel-space" class="nav-link" data-scroll-target="#plotting-significance-of-by-factor-smooths-in-vowel-space">Plotting Significance of By-Factor Smooths in Vowel Space</a></li>
+  <li><a href="#p-values-for-difference-smooths" id="toc-p-values-for-difference-smooths" class="nav-link" data-scroll-target="#p-values-for-difference-smooths">P-Values for Difference Smooths</a></li>
+  <li><a href="#pointwise-significance-of-difference-smooths" id="toc-pointwise-significance-of-difference-smooths" class="nav-link" data-scroll-target="#pointwise-significance-of-difference-smooths">Pointwise Significance of Difference Smooths</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/JoshuaWilsonBlack/quarto_personal/edit/main/posts/significance-testing-for-vowel-space-gamms/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/JoshuaWilsonBlack/quarto_personal/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Model Check and Significance Testing for Vowel Space GAMMs</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">GAMMs</div>
+    <div class="quarto-category">vowels</div>
+    <div class="quarto-category">sociolinguistics</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Checking GAMM models, significance tests, and visualisation for by-vowel models.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joshua Wilson Black </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 30, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In a <a href="https://joshua.wilsonblack.nz/post/visualising-vowel-space-gamms/">previous post</a>, I set out a workflow for fitting and visualising generalised additive mixed models for F1 and F2 of a series of vowels and using these to visualise change over an entire vowel space.</p>
+<p>In that post, I waved off the issue of evaluating individual models. In this post I’d like to fill out two aspects of this and link them to the workflow I presented in the previous post. The first is the use of the <code>gam.check</code> function to work out if your smooths enable sufficient ‘wiggliness’ for your data and whether the assumption of normally distributed residuals holds. The second is to show how information about model significance can be extracted both in terms of significance of change in a given vowels trajectory <em>over time</em> and in terms of the difference <em>between</em> the trajectories of, say, men and women (following the recent advice of <a href="https://www.sciencedirect.com/science/article/pii/S009544702030108X">Márton Sóskuthy</a>.</p>
+<p>We’ll very quickly run through fitting models using the nest and mutate approach (using <code>purrr</code>), look at the use of <code>gam.check</code> within this framework, and then turn to significance testing. I’ll conclude by adding an indication of significance to the static and animated vowel space plots presented in the previous post.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="feature.jpg" class="img-fluid figure-img"></p>
+<figcaption>NZBC Presents Logo (<a href="https://www.lonely.geek.nz/kiwi-tv/index.php/tv-shows-mainmenu-42/42-help-needed/2291-nzbc-presents-nh">source</a>)</figcaption>
+</figure>
+</div>
+</section>
+<section id="model-fit-again" class="level2">
+<h2 class="anchored" data-anchor-id="model-fit-again">Model Fit (Again)</h2>
+<p>I’ll rush over this part, given that it is covered in the previous post.</p>
+<p>Three things are worth noting:</p>
+<ol type="1">
+<li><p>I’m bringing in the data for the models using my own package <code>nzilbb.vowels</code>. This is <em>very much</em> work in progress and I don’t promise anything about it’s future versions! I will endeavour to keep this post functional.</p></li>
+<li><p>I’ll point out where the structure differs from that used in the previous post.</p></li>
+<li><p>Unlike the previous post, I’m using raw token data from each speaker rather than just taking their mean values. This makes the data a little noisier and the models a little harder to fit.</p></li>
+</ol>
+<p>Let’s load some libraries:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Required tidyverse packages </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (I occasionally try to do without 'library(tidyverse)')</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># gtools library for generating pval stars.</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtools)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># mgcv for gamms, itsadug for gamm visualisation</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(itsadug)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># nzilbb.vowels for data and some helper functions</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># To install, use remotes::install_github('JoshuaWilsonBlack/nzilbb_vowels')</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nzilbb.vowels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our data is built in to <code>nzilbb.vowels</code> under the name <code>onze_vowels</code>. Our modelling requires that we represent our factors as factor vectors rather than character vectors.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>onze_data <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(onze_vowels) <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(<span class="st">'speaker'</span>, <span class="st">'vowel'</span>, <span class="st">'word'</span>), <span class="at">.fn =</span> as.factor),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The next steps will fly by without much comment. We apply Lobanov 2.0 filtering and remove the old F1 and F2 values for convenience.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>onze_data <span class="ot">&lt;-</span> onze_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lobanov_2</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>(F1_50<span class="sc">:</span>F2_50))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(speaker, vowel)`</code></pre>
+</div>
+</div>
+<p>Next, we pivot the data so that the normalised F1 and F2 data appears in a single column, group the tibble and nest so that we have a row for each model we want to fit.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>onze_models <span class="ot">&lt;-</span> onze_data <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_longer</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">cols =</span> F1_lob2<span class="sc">:</span>F2_lob2,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">names_to =</span> <span class="st">"formant_type"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">values_to =</span> <span class="st">"formant_value"</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>   ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(vowel, formant_type) <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now it’s time to fit some models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>onze_models <span class="ot">&lt;-</span> onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="fu">map</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      data,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">bam</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        formant_value <span class="sc">~</span> gender <span class="sc">+</span> <span class="fu">s</span>(yob, <span class="at">by =</span> gender) <span class="co"># main effects</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>          <span class="sc">+</span> <span class="fu">s</span>(speech_rate) <span class="sc">+</span> <span class="co"># control variable</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>          <span class="fu">s</span>(speaker, <span class="at">bs =</span> <span class="st">'re'</span>) <span class="sc">+</span> <span class="fu">s</span>(word, <span class="at">bs =</span> <span class="st">"re"</span>), <span class="co"># random effects</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> .x,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">discrete =</span> T,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">nthreads =</span> <span class="dv">16</span> <span class="co"># I'm on a silly computer right now. </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Perhaps reduce nthreads to 4.</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="using-gam.check" class="level2">
+<h2 class="anchored" data-anchor-id="using-gam.check">Using <code>gam.check</code></h2>
+<p>The function <code>gam.check</code> from <code>mgcv</code> tells us a lot about a GAMM. Here it is for the first GAMM in our tibble. This can be done by taking the first object from the model column.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gam.check</span>(onze_models<span class="sc">$</span>model[[<span class="dv">1</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Method: fREML   Optimizer: perf chol
+$grad
+[1] -2.459495e-05 -2.930034e-08 -4.469310e-05  1.003085e-05 -7.541875e-07
+[6]  1.565537e-05
+
+$hess
+           [,1]          [,2]          [,3]          [,4]          [,5]
+   2.459335e-05 -5.261901e-09 -2.823390e-11 -1.002578e-05  7.548775e-07
+  -5.261901e-09  9.229684e-02 -4.556448e-07  1.542197e-01 -6.173866e-03
+  -2.823390e-11 -4.556448e-07  4.469058e-05 -6.994732e-06 -1.076207e-06
+  -1.002578e-05  1.542197e-01 -6.994732e-06  3.353799e+01 -2.782142e-02
+   7.548775e-07 -6.173866e-03 -1.076207e-06 -2.782142e-02  1.462190e+01
+d -1.561899e-05 -3.098834e-01 -8.006339e-06 -3.960741e+01 -3.784472e+01
+           [,6]
+  -1.561899e-05
+  -3.098834e-01
+  -8.006339e-06
+  -3.960741e+01
+  -3.784472e+01
+d  3.468500e+03
+
+Model rank =  621 / 621 
+
+Basis dimension (k) checking results. Low p-value (k-index&lt;1) may
+indicate that k is too low, especially if edf is close to k'.
+
+                   k'    edf k-index p-value  
+s(yob):genderF   9.00   1.00    1.01   0.815  
+s(yob):genderM   9.00   1.62    1.01   0.835  
+s(speech_rate)   9.00   1.00    0.96   0.015 *
+s(speaker)     100.00  79.21      NA      NA  
+s(word)        492.00  75.69      NA      NA  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>We get:</p>
+<ul>
+<li>A qq-plot and a histogram of residuals. Both suggest heavy tails. This seems to be quite common with formant data. One option to deal with this, although it increases computation load, is to use a scaled t distribution as our residual model. This can be done by adding <code>family = scat(link='identity'))</code> to the arguments of the <code>bam</code> function. I won’t explore this option in this post.</li>
+<li>Two scatter plots of residuals. The linear predictor is the one to look at. There is no obvious pattern in this case. This is good!</li>
+<li>Console output within which the main thing to check is the ‘Basis dimension (k) checking results’. These indicate the possible degrees of freedom (<code>k'</code>) which each smooth is provided by the model specification and the effective degrees of freedom (<code>edf</code>) of the smooth which has been fit to the data. We want to avoid the combination of low p-values and <code>edf</code> close to <code>k'</code>. The current output doesn’t have anything to worry about here either. If <code>edf</code> gets close to <code>k'</code> we can increase the possible ‘wiggliness’ of the relevant term by adding the argument, say, <code>k = 11</code> (which is one higher than the default value of 10) to the relevant smooth specification. When fitting the same model formula to multiple datasets, we need to pick a <code>k</code> value which works for all. Practically speaking, the only cost to increasing <code>k</code> is computational.</li>
+</ul>
+<p><code>gam.check</code> does not return a value. So we can’t save it’s results using the <code>mutate</code> and <code>map</code> approach used above. I suggest <code>walk</code>ing through the data in the following way. This will output the plots and console output for each of the models in turn. The output is not given here to avoid this post becoming <em>very</em> long.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">walk2</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_c</span>(onze_models<span class="sc">$</span>vowel, <span class="st">'_'</span>, onze_models<span class="sc">$</span>formant_type),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  onze_models<span class="sc">$</span>model,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(.x)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gam.check</span>(.y)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One downside of the approach to fitting multiple models I’m suggesting here is that the same structure has to be used for all of them. The use of <code>gam.check</code> here is odd insofar as we are testing a series of particular models, but can only modify the general structure which we have set to apply to each model. It may be that there is a ‘tidymodelling’ approach which enables tweaking of each model. I’d be keen to hear of any such thing.</p>
+<p>As always in statistics, you can’t just rely on a one-size-fits-all recipe. Reflection on the nature of your own data should always be involved in your selection of ‘k’.</p>
+</section>
+<section id="significance-testing" class="level2">
+<h2 class="anchored" data-anchor-id="significance-testing">Significance Testing</h2>
+<p>We have produced models of normalised first and second formant values for New Zealand English monophthongs over a long span of time. We’ve fit distinct model for each vowel and formant type pair (a model for <span style="font-variant:
+small-caps;">dress</span> F1, a model for <span style="font-variant:
+small-caps;">dress</span> F2, &amp;c.&nbsp;&amp;c…). <em>Within</em> each of these models, we fit a distinct smooth for the two gender categories in the data.</p>
+<section id="p-values-for-by-factor-smooths-from-the-model-summary" class="level3">
+<h3 class="anchored" data-anchor-id="p-values-for-by-factor-smooths-from-the-model-summary">P-Values for By-Factor Smooths from the Model Summary</h3>
+<p>The simplest method, if we are interested in which trajectories through the vowel space represent statistically significant changes is to extract p-values from the model summaries produced by the <code>summary</code> function.</p>
+<p>In this case, we say that a trajectory is significant if <em>either</em> the p-value for the F1 smooth <em>or</em> the F2 smooth is less than 0.05. This kind of disjunctive use of p-values leads to false positives. So, for similar reasons to those presented in the Sóskuthy paper linked above, it is wise to apply the Bonferroni correction here. Since two p-value are involved, we simply divide our threshold for significance by 2, to give a new threshold of 0.0025.</p>
+<p>Here’s what the output of <code>summary</code> applied to one of our models looks like (I’ve picked one with significant effects on year of birth).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model_index <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">"Vowel = "</span>, onze_models<span class="sc">$</span>vowel[[model_index]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vowel = FLEECE"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">"Formant type = "</span>, onze_models<span class="sc">$</span>formant_type[[model_index]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Formant type = F1_lob2"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(onze_models<span class="sc">$</span>model[[<span class="dv">3</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Family: gaussian 
+Link function: identity 
+
+Formula:
+formant_value ~ gender + s(yob, by = gender) + s(speech_rate) + 
+    s(speaker, bs = "re") + s(word, bs = "re")
+
+Parametric coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -1.03870    0.02515 -41.306  &lt; 2e-16 ***
+genderM     -0.15620    0.02947  -5.301 1.17e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Approximate significance of smooth terms:
+                   edf  Ref.df      F p-value    
+s(yob):genderF   1.533   1.597 65.436  &lt;2e-16 ***
+s(yob):genderM   2.684   2.795 39.972  &lt;2e-16 ***
+s(speech_rate)   1.000   1.000  1.924   0.165    
+s(speaker)      74.509  96.000  7.205  &lt;2e-16 ***
+s(word)        215.748 734.000  1.968  &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+R-sq.(adj) =  0.221   Deviance explained =   24%
+fREML =  10133  Scale est. = 0.30672   n = 11896</code></pre>
+</div>
+</div>
+<p>This is the model for <span class="smallcaps">fleece</span> F1. The parametric coefficients show the intercept terms for the women (<code>(Intercept)</code>) and the <code>genderM</code> term for the men. This gives the average (normalised) value for <span class="smallcaps">fleece</span> F1 for the women and the <em>difference</em> between this and the average for the men. The difference between these values comes out as significant. But what we’re really interested in is whether they differ across the year of birth variable.</p>
+<p>To see this, we look at the smooth terms. As the heading suggests, these are ‘approximate’ significances. For our purposes, this just means there’s ‘mathematical dragons lurking about here. All we ought to know is that, if a p-value is ’quite close’ to our cut off, we should report that. The p-values we are looking at for this model do not have this problem. We’re looking at the values for <code>s(yob):genderF</code> and <code>s(yob):genderM</code>. In both cases, they are less than <span class="math inline">\(2\times10^{-16}\)</span>.</p>
+<p>While we’re at it, let’s plot these smooths using the <code>plot_smooth</code> function from <code>itsadug</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_smooth</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  onze_models<span class="sc">$</span>model[[model_index]], </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">view=</span><span class="st">"yob"</span>, </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_all =</span> <span class="st">"gender"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"FLEECE F1 Year of Birth Smooths"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">rug =</span> <span class="cn">TRUE</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary:
+    * gender : factor; set to the value(s): F, M. 
+    * yob : numeric predictor; with 30 values ranging from 1864.000000 to 1981.000000. 
+    * speech_rate : numeric predictor; set to the value(s): 4.5576. 
+    * speaker : factor; set to the value(s): IA_f_527. (Might be canceled as random effect, check below.) 
+    * word : factor; set to the value(s): word_12921. (Might be canceled as random effect, check below.) 
+    * NOTE : The following random effects columns are canceled: s(speaker),s(word)
+ </code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/fleece-smooths-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Smooths for males and females from FLEECE F1 model.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>There’s no way to tell from the <code>summary</code> output what the nature of the two smooths is. We will turn to the question of whether the two smooths are significantly different <em>from one another</em> in moment. But with the current model, we can see that both a significantly different <em>from 0</em>.</p>
+<p>In order for us to access the p-values for <code>s(yob):genderM</code> and <code>s(yob):GenderF</code> for <em>all</em> of our models at once, we need to know a bit more about how the output of <code>summary</code> is stored by R: <code>summary</code>, when applied to a GAMM, produces a named list with information about the GAMM (run <code>?summary.gam</code> to see the details). We need the first two smooth p-values. These are stored with the name <code>s.pv</code>.</p>
+<p>To extract this information for each model, we create a new column which extracts the p-values for the smooths from the summary of each GAMM, and then columns for each of the p-values we are interested in. This can be done as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>onze_models <span class="ot">&lt;-</span> onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">model_smooth_pvs =</span> <span class="fu">map</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      model,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">summary</span>(.x)<span class="sc">$</span>s.pv</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">genderF_smooth_pv =</span> <span class="fu">map_dbl</span>(</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      model_smooth_pvs,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> .x[[<span class="dv">1</span>]]</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">genderM_smooth_pv =</span> <span class="fu">map_dbl</span>(</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>      model_smooth_pvs,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> .x[[<span class="dv">2</span>]]</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>model_smooth_pvs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice the use of <code>map_dbl</code>, which ensures that the resulting column is numerical rather than a list column. If anyone reading this has any idea of how to generate approximate p-values for the smooth terms in these models without running <code>summary</code>, I’d greatly appreciate it! This block takes a very long time to run.</p>
+<p>We can look at the trajectories which appear as significant for either the males or females using the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>model, <span class="sc">-</span>data) <span class="sc">%&gt;%</span> <span class="co"># Sometimes it's good to exclude the columns with </span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># large objects. </span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(genderF_smooth_pv <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">|</span> genderM_smooth_pv <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 4
+# Groups:   vowel, formant_type [20]
+   vowel   formant_type genderF_smooth_pv genderM_smooth_pv
+   &lt;fct&gt;   &lt;chr&gt;                    &lt;dbl&gt;             &lt;dbl&gt;
+ 1 THOUGHT F1_lob2             0.237            0.00000107 
+ 2 THOUGHT F2_lob2             0.0646           0.00454    
+ 3 FLEECE  F1_lob2             0                0          
+ 4 FLEECE  F2_lob2             0.00143          0          
+ 5 KIT     F1_lob2             0                0          
+ 6 KIT     F2_lob2             0                0          
+ 7 DRESS   F1_lob2             0                0          
+ 8 DRESS   F2_lob2             0.0454           0.000601   
+ 9 GOOSE   F1_lob2             0                0.00000863 
+10 GOOSE   F2_lob2             0.000124         0          
+11 TRAP    F1_lob2             0                0          
+12 TRAP    F2_lob2             0.000969         0.254      
+13 START   F1_lob2             0.00438          0.000000694
+14 START   F2_lob2             0.0269           0.0154     
+15 STRUT   F1_lob2             0.0000647        0          
+16 STRUT   F2_lob2             0                0.000000718
+17 NURSE   F1_lob2             0                0          
+18 NURSE   F2_lob2             0.00000633       0.00000139 
+19 LOT     F1_lob2             0.00136          0.428      
+20 LOT     F2_lob2             0.00000706       0          </code></pre>
+</div>
+</div>
+<p>Each is ‘significant’ by the 0.05 threshold for one gender or the other.</p>
+</section>
+<section id="plotting-significance-of-by-factor-smooths-in-vowel-space" class="level3">
+<h3 class="anchored" data-anchor-id="plotting-significance-of-by-factor-smooths-in-vowel-space">Plotting Significance of By-Factor Smooths in Vowel Space</h3>
+<p>Here, I again copy the steps in the previous post. The only difference here is that we are going to have information about significance along with our predicted formant values.</p>
+<p>We generate model predictions from each model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>to_predict <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yob"</span> <span class="ot">=</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">1864</span>, <span class="at">to=</span><span class="dv">1981</span>, <span class="at">by=</span><span class="dv">1</span>), <span class="co"># All years</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gender"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># BTW: Get prediction will just assume the average value for any predictors not</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># mentioned (in this case, Speech_rate).</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>onze_models <span class="ot">&lt;-</span> onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">prediction =</span> <span class="fu">map</span>(</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>      model, <span class="co"># This time we're applying the function to all the models.</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>      <span class="co"># We again introduce the function with '~', and indicate where the model </span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="co"># goes with '.x'.</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">get_predictions</span>(<span class="at">model =</span> .x, <span class="at">cond =</span> to_predict, <span class="at">print.summary =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We then unnest the predictions, making sure to keep our p-value information.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="ot">&lt;-</span> onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    vowel, formant_type, genderF_smooth_pv, genderM_smooth_pv, prediction</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(prediction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We still need to pivot our data so that we have distinct columns for the fit and the p-value for each formant type.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">if_else</span>(gender <span class="sc">==</span> <span class="st">"F"</span>, genderF_smooth_pv, genderM_smooth_pv)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>( <span class="co"># Remove unneeded variables</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>speech_rate,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>CI,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>genderF_smooth_pv,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>genderM_smooth_pv</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>( <span class="co"># Pivot</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> formant_type,</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(fit, p_value)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our significance test for each vowel is to test whether either of the p-values for the vowel is less than 0.025. We make a new column to track this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">is_sig =</span> (p_value_F1_lob2 <span class="sc">&lt;</span> <span class="fl">0.025</span> <span class="sc">|</span> p_value_F2_lob2 <span class="sc">&lt;</span> <span class="fl">0.025</span>),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s have a look at which of these turn up as significant:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(vowel, gender) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">is_sig =</span> <span class="fu">first</span>(is_sig)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(is_sig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'vowel'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 3
+# Groups:   vowel [10]
+   vowel   gender is_sig
+   &lt;fct&gt;   &lt;fct&gt;  &lt;lgl&gt; 
+ 1 THOUGHT F      FALSE 
+ 2 DRESS   M      TRUE  
+ 3 DRESS   F      TRUE  
+ 4 FLEECE  M      TRUE  
+ 5 FLEECE  F      TRUE  
+ 6 GOOSE   M      TRUE  
+ 7 GOOSE   F      TRUE  
+ 8 KIT     M      TRUE  
+ 9 KIT     F      TRUE  
+10 LOT     M      TRUE  
+11 LOT     F      TRUE  
+12 NURSE   M      TRUE  
+13 NURSE   F      TRUE  
+14 START   M      TRUE  
+15 START   F      TRUE  
+16 STRUT   M      TRUE  
+17 STRUT   F      TRUE  
+18 THOUGHT M      TRUE  
+19 TRAP    M      TRUE  
+20 TRAP    F      TRUE  </code></pre>
+</div>
+</div>
+<p>Of our 10 vowels, the only one which does not come up as significant is <span class="smallcaps">thought</span> for the female speakers.</p>
+<p>We will visualise significance in two ways. The first is to decrease the transparency of any vowel which does not meet our significance threshold, the second is to add to our vowel labels and indication of the p-values for F1 and F2 for each vowel. We’ll do this by adding a tag of the form ’(** | *)’ where the first set of stars indicates the magnitude of the F1 p-value and the second indicates the magnitude of the F2 p-value. We’ll use the usual stars for p-values. These can be conveniently generated using the <code>stars.pval</code> function from the <code>gtools</code> package.</p>
+<p>We create the labels as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">F1_stars =</span> <span class="fu">stars.pval</span>(p_value_F1_lob2),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">F2_stars =</span> <span class="fu">stars.pval</span>(p_value_F2_lob2),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">vowel_label =</span> <span class="fu">glue</span>(</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"{vowel}</span><span class="sc">\n</span><span class="st">({F1_stars}|{F2_stars})"</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we apply the static plot code from the previous post.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>first_obs <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(vowel, gender) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="fu">which.min</span>(yob))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>static_plot <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> fit_F2_lob2,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> fit_F1_lob2,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> vowel,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> vowel_label,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> is_sig</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">2.5</span>, <span class="st">"mm"</span>)), <span class="co"># Make arrows smaller</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> first_obs, </span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">2</span>, <span class="co"># Make labels small,</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.7</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.7</span>)) <span class="sc">+</span> <span class="co"># less expanasion needed.</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>() <span class="sc">+</span></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'FALSE'</span> <span class="ot">=</span> <span class="fl">0.2</span>, <span class="st">'TRUE'</span> <span class="ot">=</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">vars</span>(gender)</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vowel Space Change in NZE (yob: 1864-1981)"</span>,</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Second Formant (Lobanov 2.0)"</span>,</span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"First Formant (Lobanov 2.0)"</span></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>static_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/onze-sig-plot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>ONZE by-gender smooths, with significance indicated.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The plot here creates somewhat unwieldy labels. The advantage of these is that they give us a bit more detail than merely ‘is significant’ or ‘is not significant’. This is particularly important given that these plots will typically be used in exploratory rather than confirmatory contexts. It is <em>also</em> important that we provide some indication of the specific p-values. Those which are near 0.05 should be treated with a bit of scepticism.</p>
+<p>And now, the same plot but animated:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>onze_anim <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> fit_F2_lob2,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> fit_F1_lob2,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> vowel,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> vowel_label,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> is_sig</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># NB: our labels just use the predictions dataframe now, so no need for the</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 'data = ' line.</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>( </span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.5</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>)) <span class="sc">+</span> </span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>() <span class="sc">+</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">vars</span>(gender)</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vowel Space Change in NZE (yob: 1864-1981)"</span>,</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Second Formant (Lobanov 2.0)"</span>,</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"First Formant (Lobanov 2.0)"</span>,</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">'Year of Birth: {round(frame_along, 0)}'</span> </span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">hjust =</span> <span class="dv">0</span>)</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_reveal</span>(<span class="at">along =</span> yob)</span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(onze_anim, <span class="at">end_pause =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using alpha for a discrete variable is not advised.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_path()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_path()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_path()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_path()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.gif" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here the transparent applies to both the labels <em>and</em> the paths.</p>
+<p>You might think that we should be applying some kind of multiple comparisons correction for the fact we are looking at 20 distinct statistical models! That would be the case if we were testing the hypothesis that there is some significant effect in <em>one</em> of the vowels we are looking at. I’d suggest that that is not an interesting hypothesis! What we’re trying to get at with these tools is a sense of systematic change in the data. If we wanted to turn this into a severe hypothesis test, we would need a much more worked out hypothesis which covered both <em>which</em> vowels we expect to have significant effects in the vowel space and <em>what</em> we expect those effects to be.</p>
+</section>
+<section id="p-values-for-difference-smooths" class="level3">
+<h3 class="anchored" data-anchor-id="p-values-for-difference-smooths">P-Values for Difference Smooths</h3>
+<p>If we want to know whether differences between the trajectories are significant, then we need a different model structure. Rather than fitting distinct smooths to the two levels of our gender variable, we need to fit a smooth for the female speakers and a <em>difference</em> smooth for the males. This smooth represents, as the name suggests, the difference between the shapes of the smooths for the male and female speakers.</p>
+<p>The difference smooth structure is implemented by <code>mgcv</code> when we use ordered factors with contrast-treatment coding. This is done in R as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>onze_data <span class="ot">&lt;-</span> onze_data <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">as.ordered</span>(gender)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(onze_data<span class="sc">$</span>gender) <span class="ot">&lt;-</span> <span class="st">'contr.treatment'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We also have to change the model structure slightly. The difference between the needed model structure the structure used for by-factor smooths is that with difference smooths on a variable <span class="math inline">\(x\)</span> by some factor <span class="math inline">\(y\)</span>, the model formula looks like <code>y + s(x) + s(x, by=y)</code> whereas if a smooth is fit to each level of the factor <span class="math inline">\(y\)</span> independently the formula looks like <code>y + s(x, by=y)</code>. The former structure is not actually <a href="https://en.wikipedia.org/wiki/Identifiability">identifiable</a> if you do not have contrast coded ordered factors. It’s important to be clear whether you are fitting by-factor level smooths or difference smooths!</p>
+<p>We fit new models. Here, to avoid the models dataframe exploding, I’ll just replace the old ones. In a real research project, you will probably want to save the original models before you do this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>onze_models <span class="ot">&lt;-</span> onze_data <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rerun the nesting steps.</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">cols =</span> F1_lob2<span class="sc">:</span>F2_lob2,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">names_to =</span> <span class="st">"formant_type"</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">values_to =</span> <span class="st">"formant_value"</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>   ) <span class="sc">%&gt;%</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(vowel, formant_type) <span class="sc">%&gt;%</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rerun modelling with new structure</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="fu">map</span>(</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>      data,</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">bam</span>(</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>        formant_value <span class="sc">~</span> gender <span class="sc">+</span> <span class="fu">s</span>(yob) <span class="sc">+</span> <span class="fu">s</span>(yob, <span class="at">by =</span> gender) <span class="co"># main effects</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>          <span class="sc">+</span> <span class="fu">s</span>(speech_rate) <span class="sc">+</span> <span class="co"># control variable</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>          <span class="fu">s</span>(speaker, <span class="at">bs =</span> <span class="st">'re'</span>) <span class="sc">+</span> <span class="fu">s</span>(word, <span class="at">bs =</span> <span class="st">"re"</span>), <span class="co"># random effects</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> .x,</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">discrete =</span> T,</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">nthreads =</span> <span class="dv">16</span> </span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We skip checking the model assumptions here. The same points as above apply.</p>
+<p>Let’s have a look at a model summary for the same example as before (<span class="smallcaps">fleece</span>) F1).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(onze_models<span class="sc">$</span>model[[model_index]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Family: gaussian 
+Link function: identity 
+
+Formula:
+formant_value ~ gender + s(yob) + s(yob, by = gender) + s(speech_rate) + 
+    s(speaker, bs = "re") + s(word, bs = "re")
+
+Parametric coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -1.03295    0.02509  -41.17  &lt; 2e-16 ***
+genderM     -0.15884    0.02947   -5.39 7.19e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Approximate significance of smooth terms:
+                   edf  Ref.df      F p-value    
+s(yob)           2.093   2.180 45.640  &lt;2e-16 ***
+s(yob):genderM   2.072   2.161  1.415   0.274    
+s(speech_rate)   1.000   1.000  2.034   0.154    
+s(speaker)      74.459  96.000  7.253  &lt;2e-16 ***
+s(word)        215.736 734.000  1.969  &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+R-sq.(adj) =  0.221   Deviance explained =   24%
+fREML =  10133  Scale est. = 0.30672   n = 11896</code></pre>
+</div>
+</div>
+<p>The story we tell here is a bit different than the one we offered above. We have to account for both the parametric terms and the smooth terms. In the parametric coefficients, we see that the female speakers have an average F1 of -1.03295 in our Lobanov 2.0 normalised values. The <code>genderM</code> coefficient tells us that the male speakers have a value of which is smaller than the female speakers by 0.15884. That is, the male average is -1.19179. That is, in terms of the vowel space, their average <span class="smallcaps">fleece</span> vowel is higher.</p>
+<p>The smooth terms then tell us about the shape of the change in male and female speakers over time. We see that <code>s(yob)</code>, the smooth for female speakers, is ‘statistically significant’. That is, there is change over time in this variable for our female speakers. The coefficient <code>s(yob):genderM</code> now indicates the difference in shape of the change over time between our female and male speakers. It is <em>not</em> statistically significant in this case. That is, the <em>shape</em> of the change over time could be the same for both speakers. This is quite different from the interpretation of <code>s(yob):genderM</code> in our previous model structure.</p>
+<p>This case is interesting in that it looks intuitively from the animation in the previous section, that female speakers are leading the change in the height of <span class="smallcaps">fleece</span>, with the male speakers following after a delay. The model, however, is representing this as males being across-the-board higher in their <span class="smallcaps">fleece</span> vowel, while potentially following the same shape as the female speakers.</p>
+<p>When thinking about change over time in the vowel space, we might be interested in differences in <em>shape</em> between men and women but not in across-the-board differences in height. With that in mind, we can plot those trajectories which have significant differences in shape across male and female speakers.</p>
+<p>Following the same pattern as above, we say that a vowel has a significant difference in shape between male and female speakers if one or the other formant values has an <code>s(yob):genderM</code> p-value less than 0.0025. We follow the previous steps without much comment:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>onze_models <span class="ot">&lt;-</span> onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_smooth_pv =</span> <span class="fu">map_dbl</span>(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>      model,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">summary</span>(.x)<span class="sc">$</span>s.pv[[<span class="dv">2</span>]]</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>onze_models <span class="ot">&lt;-</span> onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">prediction =</span> <span class="fu">map</span>(</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>      model, </span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">get_predictions</span>(<span class="at">model =</span> .x, <span class="at">cond =</span> to_predict, <span class="at">print.summary =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="ot">&lt;-</span> onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>    vowel, formant_type, diff_smooth_pv, prediction</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(prediction)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>( <span class="co"># Remove unneeded variables</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>speech_rate,</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>CI</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>( <span class="co"># Pivot</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> formant_type,</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(fit, diff_smooth_pv)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">is_sig =</span> (diff_smooth_pv_F1_lob2 <span class="sc">&lt;</span> <span class="fl">0.025</span> <span class="sc">|</span> diff_smooth_pv_F2_lob2 <span class="sc">&lt;</span> <span class="fl">0.025</span>),</span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We now create labels and produce the static plot. Code which is changed from above is indicated in comments.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">F1_stars =</span> <span class="fu">stars.pval</span>(diff_smooth_pv_F1_lob2),</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">F2_stars =</span> <span class="fu">stars.pval</span>(diff_smooth_pv_F2_lob2),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">vowel_label =</span> <span class="fu">glue</span>(</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"{vowel}</span><span class="sc">\n</span><span class="st">({F1_stars}|{F2_stars})"</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>first_obs <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(vowel, gender) <span class="sc">%&gt;%</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="fu">which.min</span>(yob))</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>static_plot <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> fit_F2_lob2,</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> fit_F1_lob2,</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> vowel,</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> vowel_label,</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> is_sig</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">2.5</span>, <span class="st">"mm"</span>)), <span class="co"># Make arrows smaller</span></span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span></span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> first_obs, </span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">2</span>, <span class="co"># Make labels small</span></span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>    <span class="do">### NB: alpha removed from here - labels will change transparency as well</span></span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>    <span class="do">## as paths.</span></span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.7</span>)) <span class="sc">+</span> <span class="co"># less expanasion needed.</span></span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>() <span class="sc">+</span></span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'FALSE'</span> <span class="ot">=</span> <span class="fl">0.2</span>, <span class="st">'TRUE'</span> <span class="ot">=</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">vars</span>(gender)</span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vowel Space Change in NZE (yob: 1864-1981)"</span>,</span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Significant Shape Difference Between Genders"</span>,</span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Second Formant (Lobanov 2.0)"</span>,</span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"First Formant (Lobanov 2.0)"</span></span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a>static_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/onze-diff-plot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>ONZE smooths, with significant gender differences indicated.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Figure (fig:onze-diff-plot) suggests that there are significant differences in the shape of change between the male and female speakers for <span class="smallcaps">nurse</span>, <span class="smallcaps">goose</span>, abd <span class="smallcaps">thought</span>.</p>
+<p>This can be converted into an animated plot using the same approach as for the animated plot in the previous section.</p>
+</section>
+<section id="pointwise-significance-of-difference-smooths" class="level3">
+<h3 class="anchored" data-anchor-id="pointwise-significance-of-difference-smooths">Pointwise Significance of Difference Smooths</h3>
+<p>The p-values in the summaries of difference smooth models provide a sense of whether the appropriate smooth for two levels of a factor differ in shape and <em>overall</em>. We might, instead, be interested in a pointwise, or even range-wise, sense of significance. In this case, we might ask if the smooths for men and women are significantly different for speakers born between 1860-1880 or between 1900-1920 etc. This is closely related to the visual method of significance testing which Sóskuthy expresses some caution about.</p>
+<p>The method is simply to look at the plot of the smooths for each factor level in a difference smooth model and, if there is a point where their confidence intervals separate, to declare the difference significant. Sóskuthy advises that we only do this if we have a concrete hypothesis about the range in which the smooths will differ. If not, we open the door to an unacceptable number of false positives. (A second version of this approach looks at a plot of the difference between the two and looks for ranges in which 0 is not included within the confidence interval).</p>
+<p>This caution is certainly important in a confirmatory setting. Here, in an exploratory setting, we can just be aware that we shouldn’t expend energy trying to interpret pointwise differences between two smooths. This is easy enough to avoid if we keep in mind our actual subject matter! If there are two years in our data in which men and women has a ‘significant’ difference between their smooths, say 1872 and 1873, we are not going to rush to the journals with a paper on the sociolinguistics of gender difference in 1872 and 1873. We just don’t expect that kind of resolution from this data and these methods of analysis.</p>
+<p>One final note about this method is that it includes both the shape <em>and</em> the intercept terms. Two smooths which are identical in shape but are vertical translations of one another and do not have overlapping confidence intervals will appear as significantly different across their whole range.</p>
+<p>The aim in this (final!) section will be to show how to extract ‘significantly different’ ranges from our smooths and to plot them in the vowel space. The core idea is to use the <code>get_difference</code> function from the <code>itsadug</code> package, which returns the difference smooth and its confidence intervals.</p>
+<p>Let’s look at this function for the <span class="smallcaps">fleece</span> F1 model. First, it will be useful to see the difference smooth itself.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_diff</span>(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  onze_models<span class="sc">$</span>model[[model_index]],</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">view =</span> <span class="st">"yob"</span>,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">comp =</span> <span class="fu">list</span>(<span class="st">"gender"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>))</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary:
+    * yob : numeric predictor; with 100 values ranging from 1864.000000 to 1981.000000. 
+    * speech_rate : numeric predictor; set to the value(s): 4.5576. 
+    * speaker : factor; set to the value(s): IA_f_527. (Might be canceled as random effect, check below.) 
+    * word : factor; set to the value(s): word_12921. (Might be canceled as random effect, check below.) 
+    * NOTE : The following random effects columns are canceled: s(speaker),s(word)
+ </code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+yob window(s) of significant difference(s):
+    1877.000000 - 1981.000000</code></pre>
+</div>
+</div>
+<p>The above plot shows the difference between female and male speakers in their smooths for <span class="smallcaps">fleece</span> F1. The red line indicates the range of years of birth for which the two are taken to be significantly different.</p>
+<p>The <code>get_difference</code> function helps us to find these ranges directly. For instance:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>to_predict <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yob"</span> <span class="ot">=</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">1864</span>, <span class="at">to=</span><span class="dv">1981</span>, <span class="at">by=</span><span class="dv">1</span>) <span class="co"># All years</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>fleece_difference_smooth <span class="ot">&lt;-</span> <span class="fu">get_difference</span>(</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  onze_models<span class="sc">$</span>model[[model_index]],</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cond =</span> to_predict,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">comp =</span> <span class="fu">list</span>(<span class="st">"gender"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>))</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary:
+    * yob : numeric predictor; with 118 values ranging from 1864.000000 to 1981.000000. 
+    * speech_rate : numeric predictor; set to the value(s): 4.5576. 
+    * speaker : factor; set to the value(s): IA_f_527. (Might be canceled as random effect, check below.) 
+    * word : factor; set to the value(s): word_12921. (Might be canceled as random effect, check below.) 
+    * NOTE : The following random effects columns are canceled: s(speaker),s(word)
+ </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>fleece_difference_smooth <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If the estimate for the difference smooth minus the confidence interval</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># value is greater than 0 or the difference smooth plus the confidence</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># interval value is less than 0, then the confidence band does not include</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 0. In this case, the difference at that point is 'significant'.</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">sig_diff =</span> (difference <span class="sc">-</span> CI) <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">|</span> (difference <span class="sc">+</span> CI) <span class="sc">&lt;</span> <span class="dv">0</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    yob speech_rate  speaker       word difference        CI sig_diff
+1  1864      4.5576 IA_f_527 word_12921 0.05790359 0.1414914    FALSE
+2  1865      4.5576 IA_f_527 word_12921 0.06196859 0.1375988    FALSE
+3  1866      4.5576 IA_f_527 word_12921 0.06603054 0.1338369    FALSE
+4  1867      4.5576 IA_f_527 word_12921 0.07008477 0.1302179    FALSE
+5  1868      4.5576 IA_f_527 word_12921 0.07412524 0.1267523    FALSE
+6  1869      4.5576 IA_f_527 word_12921 0.07814509 0.1234480    FALSE
+7  1870      4.5576 IA_f_527 word_12921 0.08213722 0.1203095    FALSE
+8  1871      4.5576 IA_f_527 word_12921 0.08609447 0.1173372    FALSE
+9  1872      4.5576 IA_f_527 word_12921 0.09000985 0.1145281    FALSE
+10 1873      4.5576 IA_f_527 word_12921 0.09387715 0.1118768    FALSE
+11 1874      4.5576 IA_f_527 word_12921 0.09769055 0.1093757    FALSE
+12 1875      4.5576 IA_f_527 word_12921 0.10144559 0.1070174    FALSE
+13 1876      4.5576 IA_f_527 word_12921 0.10513947 0.1047953     TRUE
+14 1877      4.5576 IA_f_527 word_12921 0.10877103 0.1027050     TRUE
+15 1878      4.5576 IA_f_527 word_12921 0.11234046 0.1007440     TRUE</code></pre>
+</div>
+</div>
+<p>The above output gives the first 15 rows, and shows that the significant difference between smooths starts in 1876.</p>
+<p>To apply the function to all models we use the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>onze_models <span class="ot">&lt;-</span> onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">sig_diffs =</span> <span class="fu">map</span>(</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>      model,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">get_difference</span>(</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>          .x,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">cond =</span> to_predict,</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">comp =</span> <span class="fu">list</span>(<span class="st">"gender"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>)),</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">print.summary =</span> <span class="cn">FALSE</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">sig_diff =</span> (difference <span class="sc">-</span> CI) <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">|</span> (difference <span class="sc">+</span> CI) <span class="sc">&lt;</span> <span class="dv">0</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(yob, sig_diff)</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We want to take the years and whether the difference is significant for each model. We do this by unnesting in much the same way that we generated <code>onze_predictions</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>onze_sig_diffs <span class="ot">&lt;-</span> onze_models <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    vowel, formant_type, sig_diffs</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sig_diffs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We then need to aggregate these ranges so that a difference appears as significant in the vowel space plot if either the F1 or the F2 smooths are significantly different across genders.</p>
+<p>This is done as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>onze_sig_diffs <span class="ot">&lt;-</span> onze_sig_diffs <span class="sc">%&gt;%</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> formant_type,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> sig_diff</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">sig_diff =</span> F1_lob2 <span class="sc">|</span> F2_lob2</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>(F1_lob2<span class="sc">:</span>F2_lob2)</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since we already have predictions from these models from the previous section, I’ll add this information about significant ranges by using <code>left_join</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>onze_predictions <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    onze_sig_diffs</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(vowel, yob)`</code></pre>
+</div>
+</div>
+<p>Finally, we plot. In this case, we’ll go straight to the animated plot. The basic idea will be to have low transparency when differences significant and high transparency when they are not.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>onze_diff_anim <span class="ot">&lt;-</span> onze_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> fit_F2_lob2,</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> fit_F1_lob2,</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> vowel,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> sig_diff,</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> vowel,</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">group =</span> vowel,</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> sig_diff</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># NB: our labels just use the predictions dataframe now, so no need for the</span></span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 'data = ' line.</span></span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(</span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.5</span></span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>)) <span class="sc">+</span> </span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>() <span class="sc">+</span></span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'FALSE'</span> <span class="ot">=</span> <span class="fl">0.2</span>, <span class="st">'TRUE'</span> <span class="ot">=</span> <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"FALSE"</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">"TRUE"</span> <span class="ot">=</span> <span class="st">"white"</span>)) <span class="sc">+</span></span>
+<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
+<span id="cb51-25"><a href="#cb51-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">vars</span>(gender)</span>
+<span id="cb51-26"><a href="#cb51-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb51-27"><a href="#cb51-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vowel Space Change in NZE (yob: 1864-1981)"</span>,</span>
+<span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Significant Differences Between Gender Smooths"</span>,</span>
+<span id="cb51-30"><a href="#cb51-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Second Formant (Lobanov 2.0)"</span>,</span>
+<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"First Formant (Lobanov 2.0)"</span>,</span>
+<span id="cb51-32"><a href="#cb51-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">'Year of Birth: {round(frame_along, 0)}</span><span class="sc">\n</span><span class="st"> Grey indicates non-significant differences between male and</span><span class="sc">\n</span><span class="st"> female smooths.'</span> </span>
+<span id="cb51-33"><a href="#cb51-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb51-34"><a href="#cb51-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb51-35"><a href="#cb51-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">hjust =</span> <span class="dv">0</span>)</span>
+<span id="cb51-36"><a href="#cb51-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb51-37"><a href="#cb51-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_reveal</span>(<span class="at">along =</span> yob)</span>
+<span id="cb51-38"><a href="#cb51-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-39"><a href="#cb51-39" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(onze_diff_anim, <span class="at">end_pause =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_path()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_path()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_path()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_path()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-28-1.gif" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It remains to be seen how useful this kind of plot is for interpreting vowel space change. In this case, for many vowels we seem to start with insignificant difference, enter a long period of change, and, for many vowels, end up with insignificant differences. This would have to be distinguished from the fact that confidence intervals tend to flare out at the extremes of smooths.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This post has expanded on my previous post on fitting independent models to the F1 and F2 data of multiple vowels using the nest and mutate approach of the <code>purrr</code> package. I’ve covered something of how to check the health of each of the models and how to extract information about whether the difference between two smooths is significant using some of the methods mentioned in <a href="https://www.sciencedirect.com/science/article/pii/S009544702030108X">Sóskuthy (2021)</a>. In particular, we have followed his advice about the use of <em>difference smooths</em> and the use of the Bonferroni correction.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/joshua\.wilsonblack\.nz");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p><a href="https://paperspast.natlib.govt.nz/newspapers/AS19031024.2.47.11.6.1"><img src="../../images/logo.png" class="img-fluid"></a></p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JoshuaWilsonBlack/quarto_personal/edit/main/posts/significance-testing-for-vowel-space-gamms/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/JoshuaWilsonBlack/quarto_personal/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

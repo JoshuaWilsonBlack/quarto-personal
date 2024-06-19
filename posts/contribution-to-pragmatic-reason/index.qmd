@@ -1,0 +1,34 @@
+---
+title: Peirce on Metaphysics and Common Sense Belief
+author: Joshua Wilson Black
+date: '2022-06-28'
+categories:
+  - philosophy
+  - Peirce
+description: 'A précis of my contribution to _Pragmatic Reason_.'
+
+---
+
+A volume in honour of Christopher Hookway is currently in the works edited
+by Robert Talisse, Paniel Reyes Cárdenas, and Daniel Herbert. I've contributed a
+piece on Chris's account of Peirce's metaphysics, especially as it appeals to
+'common sense'.
+
+On Chris's view, metaphysics articulates those features of common sense or 
+instinct which are appealed to (often implicitly) in the generation of 
+scientific hypotheses. Importantly, Chris takes it that the role of common 
+sense diminishes as sciences develop. We might, then, expect the need for 
+metaphysics to reduce over time (perhaps being replaced by... physics).
+
+![Chris and former students at _The Idea of Pragmatism_, a conference in his honour (I'm second from right).](feature.jpg)
+
+I argue that Chris's emphasis on Peirce's appeals to common sense
+_belief_ hides Peirce's more fundamental appeal to common _experience_. I 
+emphasise Peirce's notion of the 'scientific intelligence', or anything which 
+can learn from experience (CP2.229, c. 1897). By abstraction, we make fallible
+claims about features of experience _common_ to any scientific intelligence. This
+is the source of the strong modal claims which Peirce makes in his logic and
+metaphysics. I argue that common sense beliefs are only interesting for Peirce
+insofar as they give us access to common experience.
+
+Download a pre-print of the paper [here](PragmaticReason_WilsonBlack.pdf).

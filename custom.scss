@@ -1,0 +1,18 @@
+/*-- scss:defaults --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Goudy+Bookletter+1911&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+
+$font-family-serif: "EB Garamond", Georgia, Cambria, "Times New Roman", Times, serif !default;
+$font-family-heading: "Goudy Bookletter 1911";
+$font-family-base: $font-family-serif;
+
+/*-- scss:rules --*/
+
+h1, h2, h3, h4, h5, h6, .menu-text, .navbar-title {
+  font-family: $font-family-heading;
+}
+
+.menu-text {
+  font-family: $font-family-heading;
+}

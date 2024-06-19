@@ -1,0 +1,43 @@
+---
+title: "New Website with Quarto"
+author: "Joshua Wilson Black"
+date: "2024-06-20"
+categories:
+  - quarto
+image: feature.png # actually make one.
+---
+
+I have just been through the effort of switching my academic website over from
+[blogdown](https://bookdown.org/yihui/blogdown/) --- an interface between
+RMarkdown and Hugo Academic --- to a [Quarto website](https://quarto.org/docs/websites/).
+
+A few aspects of my process might be useful to others (and to future me), so 
+I've written them down here.
+
+All code for the website is available [here](). GITHUB REPO link
+
+## The Dream
+
+It is a pain to have to write down the same information in many different places.
+This is not just an annoyance though: every time you re-enter information is 
+an opportunity to introduce errors. If, instead, you have a 'single source of
+truth', you only have to get it right once.
+
+In an ideal world, you would enter details of your employment, education, and
+research outputs in a single place and the information would propagate out to
+your website, your CV, your institutional profiles, and wherever else you might
+need it.
+
+Of the 
+
+## The Reality
+
+Lua filters
+
+## Theming
+
+What are the themes? 
+
+## Redirection
+
+You may have shared details ...
