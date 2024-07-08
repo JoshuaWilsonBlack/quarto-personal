@@ -10,7 +10,7 @@
 <atom:link href="https://joshua.wilsonblack.nz/posts.xml" rel="self" type="application/rss+xml"/>
 <description>Joshua Wilson Black&#39;s personal website.</description>
 <generator>quarto-1.5.52</generator>
-<lastBuildDate>Wed, 19 Jun 2024 14:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 19 Jun 2024 12:00:00 GMT</lastBuildDate>
 <item>
   <title>New Website with Quarto</title>
   <dc:creator>Joshua Wilson Black</dc:creator>
@@ -689,7 +689,7 @@ font-style: inherit;">)</span></span></code></pre></div>
  ]]></description>
   <category>quarto</category>
   <guid>https://joshua.wilsonblack.nz/posts/new-website/</guid>
-  <pubDate>Wed, 19 Jun 2024 14:00:00 GMT</pubDate>
+  <pubDate>Wed, 19 Jun 2024 12:00:00 GMT</pubDate>
   <media:content url="https://joshua.wilsonblack.nz/posts/new-website/feature.gif" medium="image" type="image/gif"/>
 </item>
 <item>
@@ -723,7 +723,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   <category>history of philosophy</category>
   <category>digital humanities</category>
   <guid>https://joshua.wilsonblack.nz/posts/digital-scholarship-in-the-humanities/</guid>
-  <pubDate>Wed, 25 Jan 2023 13:00:00 GMT</pubDate>
+  <pubDate>Wed, 25 Jan 2023 11:00:00 GMT</pubDate>
   <media:content url="https://joshua.wilsonblack.nz/posts/digital-scholarship-in-the-humanities/feature.png" medium="image" type="image/png" height="118" width="144"/>
 </item>
 <item>
@@ -3080,7 +3080,7 @@ font-style: inherit;">10</span>)</span></code></pre></div>
   <category>vowels</category>
   <category>sociolinguistics</category>
   <guid>https://joshua.wilsonblack.nz/posts/significance-testing-for-vowel-space-gamms/</guid>
-  <pubDate>Mon, 29 Aug 2022 14:00:00 GMT</pubDate>
+  <pubDate>Mon, 29 Aug 2022 12:00:00 GMT</pubDate>
   <media:content url="https://joshua.wilsonblack.nz/posts/significance-testing-for-vowel-space-gamms/feature.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
@@ -3209,7 +3209,7 @@ font-style: inherit;">'my_data.csv'</span>))</span></code></pre></div>
   <category>sociolinguistics</category>
   <category>data science</category>
   <guid>https://joshua.wilsonblack.nz/posts/organising-r-projects/</guid>
-  <pubDate>Sun, 31 Jul 2022 14:00:00 GMT</pubDate>
+  <pubDate>Sun, 31 Jul 2022 12:00:00 GMT</pubDate>
   <media:content url="https://joshua.wilsonblack.nz/posts/organising-r-projects/feature.png" medium="image" type="image/png" height="106" width="144"/>
 </item>
 <item>
@@ -3956,7 +3956,7 @@ font-style: inherit;">"TRAP F1 (Hz)"</span></span>
   <category>pca</category>
   <category>plotly</category>
   <guid>https://joshua.wilsonblack.nz/posts/plotly-struggles/</guid>
-  <pubDate>Mon, 18 Jul 2022 14:00:00 GMT</pubDate>
+  <pubDate>Mon, 18 Jul 2022 12:00:00 GMT</pubDate>
   <media:content url="https://joshua.wilsonblack.nz/posts/plotly-struggles/feature.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
@@ -5781,7 +5781,7 @@ font-style: inherit;">along =</span> yob)</span></code></pre></div>
   <category>vowels</category>
   <category>sociolinguistics</category>
   <guid>https://joshua.wilsonblack.nz/posts/visualising-vowel-space-gamms/</guid>
-  <pubDate>Tue, 28 Jun 2022 14:00:00 GMT</pubDate>
+  <pubDate>Tue, 28 Jun 2022 12:00:00 GMT</pubDate>
   <media:content url="https://joshua.wilsonblack.nz/posts/visualising-vowel-space-gamms/feature.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
@@ -5810,7 +5810,7 @@ font-style: inherit;">along =</span> yob)</span></code></pre></div>
   <category>philosophy</category>
   <category>Peirce</category>
   <guid>https://joshua.wilsonblack.nz/posts/contribution-to-pragmatic-reason/</guid>
-  <pubDate>Mon, 27 Jun 2022 14:00:00 GMT</pubDate>
+  <pubDate>Mon, 27 Jun 2022 12:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
