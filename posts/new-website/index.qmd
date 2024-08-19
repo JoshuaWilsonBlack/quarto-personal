@@ -2,6 +2,7 @@
 title: "New Website with Quarto"
 author: "Joshua Wilson Black"
 date: "2024-06-20"
+date-modified: "2024-08-20"
 categories:
   - quarto
 image: feature.gif # actually make one.
@@ -252,4 +253,4 @@ simple as, e.g., `/post/* /posts/:splat`. This means any address with `/post` wi
 directed to one with `/posts`. The posts folder on my old Hugo website was called
 `post`, but otherwise the urls are the same.
 
-Finally, I point the domain I registered using <metaname.net> (`wilsonblack.nz`) to the Netlify page.  
+Finally, I point the domain I registered using <https://metaname.net> (`joshua.wilsonblack.nz`) to the Netlify page.  
