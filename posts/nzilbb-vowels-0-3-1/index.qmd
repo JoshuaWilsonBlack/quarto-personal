@@ -4,8 +4,8 @@ author: "Joshua Wilson Black"
 date: "2024-12-01"
 categories:
   - linguistics
-  - sociolinguistics
-  - data science
+  - vowels
+  - pca
 bibliography:
   - ../../publications.bib
   - ../../presentations.bib
