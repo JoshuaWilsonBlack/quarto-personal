@@ -20,8 +20,6 @@ website:
         text: Publications
       - href: presentations.qmd
         text: Presentations
-      - href: index.qmd
-        text: About
   page-footer:
     center: |
       [![](/images/logo.png)](https://paperspast.natlib.govt.nz/newspapers/AS19031024.2.47.11.6.1) 

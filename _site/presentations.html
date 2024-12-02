@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -56,10 +56,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b90b24499d4f1cbe400adad751dc4618.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -125,10 +125,6 @@ div.csl-indent {
     <a class="nav-link active" href="./presentations.html" aria-current="page"> 
 <span class="menu-text">Presentations</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
-<span class="menu-text">About</span></a>
-  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -168,6 +164,9 @@ div.csl-indent {
 <!-- boldname and dociteproc are explained at
 https://www.neilwright.uk/posts/quarto-bibliography-format-name -->
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-wilsonblackPCADiphs" class="csl-entry" role="listitem">
+<strong>Wilson Black, Joshua</strong>, and Lynn Clark. 2024a. <span>“<span>PCA</span> for <span>Vocalic Covariation</span>: <span>Monophthongs</span> and <span>Diphthongs</span>.”</span> Presented at the Voices of <span>Regional Australia</span> workshop, Australian National University, November 21.
+</div>
 <div id="ref-sheardRotatingPrincipalComponents2024" class="csl-entry" role="listitem">
 Sheard, Elena, and <strong>Joshua Wilson Black</strong>. 2024. <span>“Rotating <span>Principal Components</span> to Explore Change over the Lifespan in <span>New Zealand English</span> Monophthongs.”</span> Presented at the <span class="nocase">Eighteenth International Conference on Methods in Dialectology</span>, La Trobe University, July 4. <a href="https://joshua.wilsonblack.nz/slides/methods/">[Slides]</a>.
 </div>
@@ -175,7 +174,7 @@ Sheard, Elena, and <strong>Joshua Wilson Black</strong>. 2024. <span>“Rotating
 Sheard, Elena, Jen Hay, Robert Fromont, <strong>Joshua Wilson Black</strong>, and Lynn Clark. 2024. <span>“Covarying <span>New Zealand</span> Vowels Interact with Speech Rate to Create Social Meaning for <span>NZ</span> Listeners.”</span> Presented at the <span class="nocase">19th Conference on Laboratory Phonology</span>, Hanyang University, June 29.
 </div>
 <div id="ref-wilsonblackExploringVernacularReorganisation" class="csl-entry" role="listitem">
-<strong>Wilson Black, Joshua</strong>, and Lynn Clark. 2024. <span>“Exploring Vernacular Reorganisation in a Longitudinal Corpus of Pre-Schoolers’ Speech.”</span> Presented at the 25th <span>Sociolinguistics Symposium</span>, Curtin University, June 24. <a href="https://joshua.wilsonblack.nz/slides/ss-25/">[Slides]</a>.
+<strong>Wilson Black, Joshua</strong>, and Lynn Clark. 2024b. <span>“Exploring Vernacular Reorganisation in a Longitudinal Corpus of Pre-Schoolers’ Speech.”</span> Presented at the 25th <span>Sociolinguistics Symposium</span>, Curtin University, June 24. <a href="https://joshua.wilsonblack.nz/slides/ss-25/">[Slides]</a>.
 </div>
 <div id="ref-wilsonblackPhilosophy19thCentury2023" class="csl-entry" role="listitem">
 <strong>Wilson Black, Joshua</strong>. 2023a. <span>“Philosophy in a 19th Century <span>New Zealand</span> Newspaper Corpus.”</span> Presented at the <span class="nocase">NZ Association of Philosophy Conferece</span>, University of Waikato, Tauranga, December 6. <a href="https://joshua.wilsonblack.nz/slides/nzap-2023/">[Slides]</a>.
@@ -366,8 +365,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -478,7 +475,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

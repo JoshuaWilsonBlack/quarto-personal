@@ -136,3 +136,34 @@ write_file(out_string, here('education.md'))
 ```
 
 {{< include education.md >}}
+
+
+```{r}
+#| echo: false
+my_memberships <- orcid_memberships(orcid = "0000-0002-8272-5763")
+# Looks like this will be the same across all these functions.
+my_memberships <- bind_rows(
+  my_memberships$`0000-0002-8272-5763`$`affiliation-group`$summaries
+)
+
+my_employments <- my_employments |> 
+  mutate(
+    dates = if_else(
+      is.na(`employment-summary.end-date.year.value`),
+      glue("{`employment-summary.start-date.year.value`} -"),
+      glue("{`employment-summary.start-date.year.value`} - {`employment-summary.end-date.year.value`}")
+    )
+  )
+
+formatted_entries <- glue(
+  "{my_employments$dates} | ",
+  "{my_employments$`employment-summary.role-title`} | ",
+  "{my_employments$`employment-summary.organization.name`}"
+)
+
+# What's in works?
+my_works <- orcid_works(orcid = "0000-0002-8272-5763")
+my_works <- bind_rows(
+  my_works$`0000-0002-8272-5763`$works
+)
+```
