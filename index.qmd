@@ -126,6 +126,7 @@ my_education <- bind_rows(
 formatted_entries <- glue(
   "{my_education$`qualification-summary.end-date.year.value`} | ",
   "{my_education$`qualification-summary.role-title`} | ",
+  "{my_education$`qualification-summary.department-name`} | ",
   "{my_education$`qualification-summary.organization.name`}"
 )
 
