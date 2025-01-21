@@ -10,7 +10,7 @@ citeproc: false
 filters:
   - Mellich/multibib
   - boldname
-format: 
+format:
   docx:
     number-sections: false
     reference-doc: custom-reference-doc.docx
@@ -25,6 +25,7 @@ New Zealand Institute of Language, Brain and Behaviour\\
 University of Canterbury\\
 \url{joshua.black@canterbury.ac.nz}\\
 \url{https://joshua.wilsonblack.nz}\\
+\url{https://orcid.org/0000-0002-8272-5763}
 \end{center}
 
 :::: {.content-visible unless-format="pdf"}
@@ -33,6 +34,7 @@ New Zealand Institute of Language, Brain and Behaviour
 University of Canterbury  
 <joshua.black@canterbury.ac.nz>  
 <https://joshua.wilsonblack.nz>
+<https://orcid.org/0000-0002-8272-5763>
 :::
 ::::
 

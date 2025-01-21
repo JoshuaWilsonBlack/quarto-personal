@@ -11,10 +11,11 @@ local highlight_author_filter = {
           and el.content[k+4].t == "Str" and el.content[k+4].text:find("^Joshua") then
               local _,e = el.content[k+4].text:find("^Joshua")
               local rest = el.content[k+4].text:sub(e+1) 
-              el.content[k] = pandoc.Strong { pandoc.Str("Wilson Black, Joshua") }
-              el.content[k+1] = pandoc.Str(rest)
-              table.remove(el.content, k+2)
-              table.remove(el.content, k+3)
+              el.content[k] = pandoc.Strong { pandoc.Str("Wilson") }
+              el.content[k+1] = pandoc.Space()
+              el.content[k+2] = pandoc.Strong { pandoc.Str("Black,") }
+              el.content[k+3] = pandoc.Space()
+              el.content[k+4] = pandoc.Strong { pandoc.Str("Joshua" .. rest)}
         -- Get "Joshua Wilson Black"
           elseif el.content[k].t == "Str" and el.content[k].text == "Joshua"
           and el.content[k+1].t == "Space"
@@ -23,10 +24,11 @@ local highlight_author_filter = {
           and el.content[k+4].t == "Str" and el.content[k+4].text:find("^Black") then
               local _,e = el.content[k+4].text:find("^Black")
               local rest = el.content[k+4].text:sub(e+1) 
-              el.content[k] = pandoc.Strong { pandoc.Str("Joshua Wilson Black") }
-              el.content[k+1] = pandoc.Str(rest)
-              table.remove(el.content, k+2)
-              table.remove(el.content, k+3)
+              el.content[k] = pandoc.Strong { pandoc.Str("Joshua") }
+              el.content[k+1] = pandoc.Space()
+              el.content[k+2] = pandoc.Strong { pandoc.Str("Wilson") }
+              el.content[k+3] = pandoc.Space()
+              el.content[k+4] = pandoc.Strong { pandoc.Str("Black" .. rest)}
         -- Get "Black, Joshua David"
           elseif el.content[k].t == "Str" and el.content[k].text == "Black,"
           and el.content[k+1].t == "Space"
