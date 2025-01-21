@@ -2,6 +2,7 @@ project:
   type: website
   resources: 
     - "slides"
+    - "cv"
 
 website:
   title: "Joshua Wilson Black"
