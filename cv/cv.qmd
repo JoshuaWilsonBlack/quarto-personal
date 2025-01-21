@@ -1,0 +1,81 @@
+---
+title: "Joshua Wilson Black"
+csl: ../chicago-mod.csl
+bibliography_pub: ../publications.bib
+bibliography_pres: ../presentations.bib
+bibliography_other: ../other_outputs.bib
+nocite: |
+  @*
+citeproc: false
+filters:
+  - Mellich/multibib
+  - boldname
+format: 
+  docx:
+    number-sections: false
+    reference-doc: custom-reference-doc.docx
+  pdf:
+    papersize: a4paper
+    number-sections: false
+    mainfont: "Times New Roman"
+---
+
+\begin{center}
+New Zealand Institute of Language, Brain and Behaviour\\
+University of Canterbury\\
+\url{joshua.black@canterbury.ac.nz}\\
+\url{https://joshua.wilsonblack.nz}\\
+\end{center}
+
+:::: {.content-visible unless-format="pdf"}
+::: {custom-style="centred"}
+New Zealand Institute of Language, Brain and Behaviour  
+University of Canterbury  
+<joshua.black@canterbury.ac.nz>  
+<https://joshua.wilsonblack.nz>
+:::
+::::
+
+
+## Employment
+
+{{< include ../experience.md >}}
+
+## Education
+
+{{< include ../education.md >}}
+
+## Publications
+
+::: {#refs-pub}
+:::
+
+## Presentations
+
+::: {#refs-pres}
+:::
+
+
+## Other Outputs
+
+::: {#refs-other}
+:::
+
+## Scholarships and Awards
+
+2024 | Faculty of Arts Digital Research Seed Fund | University of Canterbury
+
+2023 | Faculty of Arts Digital Research Seed Fund | University of Canterbury
+
+2021 | aaDH Highly Commended Conference Paper | Australasian Association for Digital Humanities
+
+2016 | Royal Institute of Philosophy Bursary | Royal Institute of Philosophy
+
+2013 | University of Sheffield Faculty Scholarship | University of Sheffield
+
+2011 | University of Waikato Masters Research Scholarship | University of Waikato
+
+2011 | Oxford Study Abroad Programme | Mansfield College, University of Oxford and the University of Canterbury
+
+2009 | Mathematics Department Summer Research Scholarship | University of Canterbury
+

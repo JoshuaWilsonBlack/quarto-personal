@@ -4,6 +4,4 @@
 .Ruserdata
 /.quarto/
 .httr-oauth
-/cv/
-*cv/
 .DS_Store
