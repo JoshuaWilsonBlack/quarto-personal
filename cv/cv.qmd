@@ -33,7 +33,7 @@ University of Canterbury\\
 New Zealand Institute of Language, Brain and Behaviour  
 University of Canterbury  
 <joshua.black@canterbury.ac.nz>  
-<https://joshua.wilsonblack.nz>
+<https://joshua.wilsonblack.nz>  
 <https://orcid.org/0000-0002-8272-5763>
 :::
 ::::
