@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/tabby.min.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.39">
+
+  <meta name="author" content="Joshua Wilson Black">
+  <title>The Whole Ecosystem</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-17711f8ffd08fa188d1b63594a0bc3c5.css">
+  <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href=".//images/fav.png">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-image="images/nzilbb-uc.svg" data-background-position="50% 5%" data-background-size="70%" class="quarto-title-block center">
+  <h1 class="title">The Whole Ecosystem</h1>
+  <p class="subtitle">NZILBB R, Stats, and Open Science Workshops</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Joshua Wilson Black <a href="https://orcid.org/0000-0002-8272-5763" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:joshua.black@canterbury.ac.nz">joshua.black@canterbury.ac.nz</a>
+</div>
+        <p class="quarto-title-affiliation">
+            Te Kāhui Roro Reo | New Zealand Institute of Language, Brain and Behaviour
+          </p>
+        <p class="quarto-title-affiliation">
+            Te Whare Wānanga o Waitaha | University of Canterbury
+          </p>
+    </div>
+</div>
+
+
+</section>
+<section>
+<section id="overview" class="title-slide slide level1 center">
+<h1>Overview</h1>
+
+</section>
+<section id="r-stats-and-open-science" class="slide level2">
+<h2>R, Stats, and Open Science</h2>
+<ul>
+<li class="fragment"><strong>R:</strong> a programming language for statistical computing.</li>
+<li class="fragment"><strong>Stats:</strong> modelling for the kinds of data used in NZILBB projects.</li>
+<li class="fragment"><strong>Open Science:</strong> a set of practices encouraging maximal openness in the scientific process (incl.&nbsp;planning, data, and aanalysis).</li>
+</ul>
+<aside class="notes">
+<p>What are we doing here? Let’s go through each bit of the title of these workshops.</p>
+<p>We’re learning about <strong>R</strong>. R is a programming language for statistical computing which is widely used in the sciences. It was created in New Zealand, at the University of Auckland, so there is some national pride at stake here.</p>
+<p>R has a lot of friends, which enable us to produce publication-quality plots, tables, and even full papers or websites. I use R to make these slides. If you’re really perverse, you can even read your email in R.</p>
+<p>We’ll be learning some basics of statistical models. This won’t be a statistics course, but some details will be important (always with a view to practical applications).</p>
+<p>We’ll also try to use best practices for ‘open science’. This is a broad heading which includes a lot of things. One side is a response to the ‘replication crisis’ which became a big deal in the 2010s. We want the whole process and as many outputs as possible to be repeatable by other people so that they can be confident in our work. This has many other benefits: it helps us to return to old work, and reproducible work by others is much easier for us to build on.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="workshops" class="slide level2">
+<h2>Workshops</h2>
+<ul>
+<li class="fragment"><strong>Aim:</strong> that you will be confident R (+) users with good open science practices.</li>
+<li class="fragment"><strong>Side benefit:</strong> lots of transferrable skills both in and outside academia.</li>
+<li class="fragment"><strong>Content:</strong> Responsive to what you will find useful and your experience.</li>
+<li class="fragment"><strong>Website:</strong> <a href="https://nzilbb.io/statistics_workshops/" class="uri">https://nzilbb.io/statistics_workshops/</a></li>
+<li class="fragment"><strong>Today:</strong> let’s learn what the tools are and get the set up.</li>
+</ul>
+<aside class="notes">
+<p>The <strong>aim</strong> of these workshops is to make you confident users of R and of the whole open science ecosystem, who use good open science practices in your work.</p>
+<p>Because much of this ‘ecosystem’ or ‘infrastructure’ is borrowed from the world of software development, it will have the additional benefit of giving you some transferrable skills.</p>
+<p>The content is somewhat responsive to what will be useful to you. So let me know if there is anything in particular you’d like to cover.</p>
+<p>NZILBB is multidisciplinary research centre, but it has a strong history in <em>linguistics</em>. Some of you might be less familiar with linguistic data. If so, I’m very happy to try to incorporate examples from your world. Just let me know.</p>
+<p>I aim to make these increasingly ‘hands-on’, but it is usually useful for me to run through some content at the start of the workshop.</p>
+<p>Last year, I introduced new technologies as-and-when relevant. I found this introduced set-up pain more frequently than I would like. I’ve decided this semester to front-load the pain and try to get everything we will use set up now.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="the-ecosystem" class="title-slide slide level1 center">
+<h1>The ‘Ecosystem’</h1>
+
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<div class="r-stack">
+<p><img data-src="images/ecosystem.png"></p>
+<p><img data-src="images/r-highlight.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/git-highlight.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/disc-highlight.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/prereg-highlight.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/data-highlight.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/empty.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/arrow1a.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/arrow2a.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/arrow3a.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/arrow4a.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/arrow5a.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/empty.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/arrow1b.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/arrow2b.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/arrow3b.png" class="fragment fade-in-then-out"></p>
+<p><img data-src="images/empty.png" class="fragment fade-in-then-out"></p>
+</div>
+<aside class="notes">
+<p>Alright, here’s a wall of logos and names! Let’s have a quick look at what these are.</p>
+<p>/</p>
+<p>First, we have a cluster of logos concerning data analysis and presentation. Here we have <strong>R</strong>, the programming language, and <strong>RStudio</strong> a piece of software for interacting with R while engaged in data analysis.</p>
+<p>Often things in the R world have hexagonal logos. Here we have a logo for the <code>tidyverse</code>, which is a set of packages for R, which extend it in many related ways. The chief developer of the <code>tidyverse</code>, Hadley Wickham, is <strong>also</strong> a New Zealander, just by the way. As an example of a package in the <code>tidyverse</code>, <code>ggplot2</code> is very popular for making plots.</p>
+<p>The other hexagonal tiles are two tools which help to produce things like these slides, papers, and websites about your projects. The chief advantage to <em>us</em> as researchers, is that both quarto and Rmarkdown allow us to combine the kind of thing we normally do: write lots of paragraphs, with code. We can explain our code in detail. This approach is sometimes called ‘literate programming’.</p>
+<p>/</p>
+<p>We now turn to some tools for ‘version control’ and ‘code sharing’. You might instead call this ‘git and friends’. What is ‘version control’? It comes from software development, where code is divided into different ‘versions’. We often do this informally, by giving files names like <code>my_essay_0_2_JoshComments_Final_FINALFINAL.docx</code>. This may be ‘brat’, but it is neither ‘demure’ nor ‘mindful’. In particular, it isn’t any way to share our work with other people. Git is a piece of software which keeps track of changes we make to our code and, indeed, anything we might want to store as part of a project. It also includes structures for collaborating with others in a controlled manner. You will likely hate git for a while, but you may very well come to love it.</p>
+<p>GitHub and GitLab are platforms for hosting projects which use git for version control. I put them both here because GitHub is probally the most commonly used <strong>external</strong> service for hosting git repositories. But we also need to know about the version of GitLab which is hosted at the University of Canterbury. This is important for any project which might include sensitive data which you do not have permission to share with a third party.</p>
+<p>/</p>
+<p>I thought I’d add the best logo in the history of computing: the linguists in the room will recognise this as the logo for Praat, a piece of software for doing phonetic analysis. This is just an example of a discipline-specific tool. Many projects will require use of specific tools from your discipline which are external to R.</p>
+<p>/</p>
+<p>One aspect of Open Science is the pre-registration of hypotheses. All data sets have patterns in them. Finding a pattern in a data set you already have is not very impressive. Finding a pattern which supports a hypothesis in a data set you collected <strong>after making the hypothesis</strong> is impressive. Services now exist to enable you to privately register hypotheses and how you will test them. OSF.io, the open science framework, has a service for this. Aspredicted is an alternative.</p>
+<p>/</p>
+<p>Finally, GitHub isn’t really the best for hosting large data sets. The Open Science Framework is very useful for data hosting. It is also a good hub to combine all aspects of a research data project.</p>
+<p>/</p>
+<p>There are lots of ways that you might move between these tools.</p>
+<p>/</p>
+<p>Here’s one option. Perhaps you start by preregistering a hypothesis, then you go out and collect data which you have to process with some discipline-specific tool.</p>
+<p>/</p>
+<p>Then you move in to R and RStudio to do the rest of the data analysis. Perhaps you fit a statistical model.</p>
+<p>/</p>
+<p>Throughout the project you might use git and the University-internal GitLab to keep track of the development of your project and collaborate with others at UC.</p>
+<p>/</p>
+<p>Then you need a public version of your project to share, so you host your project code on GitHub.</p>
+<p>/</p>
+<p>And then host an anonymised version of your data set on OSF.io, along with a description of your project and a link to your GitHub ‘repository’ (the git name for your project folder)</p>
+<p>/</p>
+<p>Or here’s another possibility:</p>
+<p>/</p>
+<p>You get someone elses code and data from GitHub and OSF. Perhaps you would like to try the same methods with your own data.</p>
+<p>/</p>
+<p>You do a bit of processing in discipline-specific software to modify the data.</p>
+<p>/</p>
+<p>Then you host your modified ‘repository’ on GitHub.</p>
+<p>/</p>
+<p>Other paths are possible!</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-1" class="slide level2" data-background-color="#585C1F">
+<h2></h2>
+<div class="r-fit-text centre">
+<p><a href="https://nzilbb.github.io/statistics_workshops/" class="uri">https://nzilbb.github.io/statistics_workshops/</a></p>
+<div class="fragment">
+<p><em>Scroll down to ‘NZILBB induction’</em></p>
+</div>
+<div class="fragment">
+<p><em>We’ll go in a slightly different order</em></p>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Check who has successfully followed the process?</strong></p>
+<p>We’re going to go through each of the things in the NZILBB induction.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="r-and-friends" class="title-slide slide level1 center">
+<h1>R and friends</h1>
+
+</section>
+<section id="installing-r-and-r-studio" class="slide level2">
+<h2>Installing R and R Studio</h2>
+<ol type="1">
+<li class="fragment">Follow the steps here: https://posit.co/download/rstudio-desktop/ OR</li>
+<li class="fragment">Using the UC Software Centre if you are on a managed UC laptop.</li>
+</ol>
+<aside class="notes">
+<p><strong>Find out who is using what.</strong></p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="open-rstudio" class="slide level2">
+<h2>Open RStudio</h2>
+<ol start="3" type="1">
+<li class="fragment">Type <code>install.packages('usethis')</code> into the ‘Console’.</li>
+</ol>
+<ul>
+<li class="fragment">Well done: you’ve installed your first package.</li>
+<li class="fragment">This package helps us to interact with GitHub and GitLab.</li>
+</ul>
+</section>
+<section id="rstudio" class="slide level2">
+<h2>RStudio</h2>
+<ul>
+<li class="fragment">RStudio is just one option for interacting with R.</li>
+<li class="fragment">Any text editor will do.</li>
+<li class="fragment">But RStudio is very well suited for data analysis.
+<ul>
+<li class="fragment">esp.&nbsp;nice data-viewing and plot-viewing features.</li>
+<li class="fragment">We will mainly interact with git <em>using RStudio</em>.</li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="git-and-friends" class="title-slide slide level1 center">
+<h1>Git and friends</h1>
+
+</section>
+<section id="install-git" class="slide level2">
+<h2>Install git</h2>
+<ul>
+<li class="fragment"><strong>Windows:</strong> download from <a href="https://git-scm.com/downloads/win" class="uri">https://git-scm.com/downloads/win</a>.
+<ul>
+<li class="fragment">If you are given an option to allow ‘3rd-party software’ say yes.</li>
+</ul></li>
+<li class="fragment"><strong>macOS:</strong> install ‘developer tools’ by opening the Terminal app and typing <code>xcode-select --install</code><br>
+</li>
+<li class="fragment"><strong>Linux:</strong> odds are you have it already. If not: <a href="https://git-scm.com/downloads/linux" class="uri">https://git-scm.com/downloads/linux</a>.</li>
+</ul>
+</section>
+<section id="create-a-github-account" class="slide level2">
+<h2>Create a GitHub account</h2>
+<ul>
+<li class="fragment"><a href="https://github.com" class="uri">https://github.com</a></li>
+<li class="fragment">We’ll need to know the email you used very soon.</li>
+</ul>
+</section>
+<section id="connect-r-and-github" class="slide level2">
+<h2>Connect R and GitHub</h2>
+<div class="fragment">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>usethis<span class="sc">::</span><span class="fu">use_git_config</span>(</span>
+<span id="cb1-2"><a href=""></a>  <span class="at">user.name=</span><span class="st">"YOUR NAME"</span>, </span>
+<span id="cb1-3"><a href=""></a>  <span class="at">user.email=</span><span class="st">"YOUR GITHUB ACCOUNT'S EMAIL ADDRESS"</span></span>
+<span id="cb1-4"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Replace <code>YOUR NAME</code> with your name.</li>
+<li class="fragment">Replace <code>YOUR GITHUB ACCOUNT'S EMAIL ADDRESS</code> with the email you used to sign up to GitHub.</li>
+<li class="fragment"><code>usethis::git_default_branch_configure()</code></li>
+<li class="fragment"><code>usethis::create_github_token()</code></li>
+<li class="fragment"><code>gitcreds::gitcreds_set()</code></li>
+</ul>
+</section>
+<section id="test-its-working" class="slide level2">
+<h2>Test it’s working</h2>
+<ol type="1">
+<li class="fragment">Create a new GitHub ‘repository’.
+<ul>
+<li class="fragment">Include a ‘README’ file, when given the option.</li>
+</ul></li>
+<li class="fragment">Create an R project connected to GitHub:
+<ol type="1">
+<li class="fragment"><code>File &gt; New Project...</code></li>
+<li class="fragment">Select ‘Version Control’</li>
+<li class="fragment">Enter the url of your GitHub repository.</li>
+</ol></li>
+<li class="fragment">Modify the README file, “<span class="red">commit</span> the change, the <span class="red">push</span> to the <span class="red">remote</span>”</li>
+</ol>
+<div class="fragment">
+<p><em>The jargon takes a while…</em></p>
+</div>
+</section>
+<section id="section-2" class="slide level2" data-background-color="#585C1F">
+<h2></h2>
+<div class="r-fit-text centre">
+<p><strong>The R and Git Bible:</strong> <a href="https://happygitwithr.com/" class="uri">https://happygitwithr.com/</a></p>
+</div>
+</section></section>
+<section>
+<section id="osf.io" class="title-slide slide level1 center">
+<h1>OSF.io</h1>
+
+</section>
+<section id="osf.io-1" class="slide level2">
+<h2>OSF.io</h2>
+<ol type="1">
+<li class="fragment">Create an account at <a href="https://OSF.io" class="uri">https://OSF.io</a></li>
+<li class="fragment">Search for projects connected to your interests.</li>
+<li class="fragment">What do they use OSF to share?</li>
+</ol>
+</section></section>
+<section>
+<section id="whats-next" class="title-slide slide level1 center">
+<h1>What’s next?</h1>
+
+</section>
+<section id="whats-next-1" class="slide level2 smaller">
+<h2>What’s next?</h2>
+<div class="fragment">
+<p>Some options:</p>
+</div>
+<ol type="1">
+<li class="fragment">Start from scratch,</li>
+<li class="fragment">Continue from S2, 2024,</li>
+<li class="fragment">Self-contained sessions, e.g.:
+<ul>
+<li class="fragment">Intro to R and R Studio,</li>
+<li class="fragment">Git jargon and problem solving,</li>
+<li class="fragment">Plotting with <code>ggplot2</code>,</li>
+<li class="fragment">PCA</li>
+</ul></li>
+</ol>
+</section></section>
+<section id="references" class="title-slide slide level1 smaller scrollable">
+<h1>References</h1>
+<div class="cell">
+<div class="cell-output-display">
+
+</div>
+</div>
+<div class="refs">
+
+</div>
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-rmarkdown2024" class="csl-entry" role="listitem">
+Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier Luraschi, Kevin Ushey, Aron Atkins, et al. 2024. <em><span class="nocase">rmarkdown</span>: Dynamic Documents for r</em>. <a href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</a>.
+</div>
+<div id="ref-here" class="csl-entry" role="listitem">
+Müller, Kirill. 2020. <em><span class="nocase">here</span>: A Simpler Way to Find Your Files</em>. <a href="https://CRAN.R-project.org/package=here">https://CRAN.R-project.org/package=here</a>.
+</div>
+<div id="ref-base" class="csl-entry" role="listitem">
+R Core Team. 2024. <em><span>R</span>: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-renv" class="csl-entry" role="listitem">
+Ushey, Kevin, and Hadley Wickham. 2024. <em><span class="nocase">renv</span>: Project Environments</em>. <a href="https://CRAN.R-project.org/package=renv">https://CRAN.R-project.org/package=renv</a>.
+</div>
+<div id="ref-tidyverse" class="csl-entry" role="listitem">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-rmarkdown2018" class="csl-entry" role="listitem">
+Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. <em>R Markdown: The Definitive Guide</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown">https://bookdown.org/yihui/rmarkdown</a>.
+</div>
+<div id="ref-rmarkdown2020" class="csl-entry" role="listitem">
+Xie, Yihui, Christophe Dervieux, and Emily Riederer. 2020. <em>R Markdown Cookbook</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown-cookbook">https://bookdown.org/yihui/rmarkdown-cookbook</a>.
+</div>
+</div>
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="images/NZILBB-small.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="index_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="index_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="index_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="index_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="index_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="index_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
