@@ -12,6 +12,32 @@
 <generator>quarto-1.6.39</generator>
 <lastBuildDate>Sat, 30 Nov 2024 11:00:00 GMT</lastBuildDate>
 <item>
+  <title>nzilbb.vowels 0.4.1</title>
+  <dc:creator>Joshua Wilson Black</dc:creator>
+  <link>https://joshua.wilsonblack.nz/posts/nzilbb-vowels-0-4-1/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>The <code>nzilbb.vowels</code> R package has just been updated on<br>
+<a href="https://cran.r-project.org/web/packages/nzilbb.vowels/index.html">CRAN</a>.</p>
+<p>The main things to note are the inclusion of a series of functions for handling rotation of principal components. The functions (<code>pca_rotate_2d()</code> and <code>pca_rotate_procrustes()</code>) modify the results of <code>prcomp()</code> or <code>princomp()</code>. The benefit of this is that the functions should plug directly into existing PCA workflows. That is, any plots or summaries you were producing from the PCA done with <code>prcomp()</code> or <code>princomp()</code> should work exactly as before. The drawback is that you need to be careful that you don’t mislead readers in to thinking the rotated PCs are the original PCs. Indeed, rotated PCs <strong>are no</strong> <strong>longer PCs at all</strong>. I tend to say “Component 1” rather than “Principal Component 1” to mark this distinction.</p>
+<p>For more details see the new article on the package website <a href="file:///Users/jbl91/UC%20Enterprise%20Dropbox/Joshua%20Wilson%20Black/projects/nzilbb.vowels/docs/articles/Rotation.html">here</a>. These are rough notes, before I head off for parental leave!</p>
+<p>The experimental <code>mds_test()</code> function now takes dissimilarity matrices rather than similarity matrices (to match the standard use of <code>smacof::smacofSym()</code>).</p>
+<p>Finally, I’ve added a workshop on the ‘model-to-PCA’ workflow we often use this package for. Read it <a href="file:///Users/jbl91/UC%20Enterprise%20Dropbox/Joshua%20Wilson%20Black/projects/nzilbb.vowels/docs/articles/Model-to-PCA-workflow.html">here</a></p>
+
+
+
+ ]]></description>
+  <category>linguistics</category>
+  <category>vowels</category>
+  <category>pca</category>
+  <guid>https://joshua.wilsonblack.nz/posts/nzilbb-vowels-0-4-1/</guid>
+  <pubDate>Sat, 30 Nov 2024 11:00:00 GMT</pubDate>
+  <media:content url="https://joshua.wilsonblack.nz/posts/nzilbb-vowels-0-4-1/logo.png" medium="image" type="image/png" height="166" width="144"/>
+</item>
+<item>
   <title>nzilbb.vowels 0.3.1</title>
   <dc:creator>Joshua Wilson Black</dc:creator>
   <link>https://joshua.wilsonblack.nz/posts/nzilbb-vowels-0-3-1/</link>

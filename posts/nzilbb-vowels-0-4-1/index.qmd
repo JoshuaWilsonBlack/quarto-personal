@@ -1,0 +1,47 @@
+---
+title: "`nzilbb.vowels` 0.4.1"
+author: "Joshua Wilson Black"
+date: "2024-12-01"
+categories:
+  - linguistics
+  - vowels
+  - pca
+bibliography:
+  - ../../publications.bib
+  - ../../presentations.bib
+image: logo.png
+---
+
+```{r}
+#| include: false
+# This is a place to load packages in the background (i.e., this block won't 
+# apear on the slides because `echo` is false.)
+library(tidyverse)
+library(here)
+library(nzilbb.vowels)
+
+theme_set(theme_bw())
+```
+
+The `nzilbb.vowels` R package has just been updated on  
+[CRAN](https://cran.r-project.org/web/packages/nzilbb.vowels/index.html). 
+
+The main things to note are the inclusion of a series of functions for handling
+rotation of principal components. The functions (`pca_rotate_2d()` and
+`pca_rotate_procrustes()`) modify the results of `prcomp()` or `princomp()`.
+The benefit of this is that the functions should plug directly into existing PCA 
+workflows. That is, any plots or summaries you were producing from the PCA
+done with `prcomp()` or `princomp()` should work exactly as before. The 
+drawback is that you need to be careful that you don't mislead readers in to 
+thinking the rotated PCs are the original PCs. Indeed, rotated PCs **are no**
+**longer PCs at all**. I tend to say "Component 1" rather than "Principal
+Component 1" to mark this distinction. 
+
+For more details see the new article on the package website [here](file:///Users/jbl91/UC%20Enterprise%20Dropbox/Joshua%20Wilson%20Black/projects/nzilbb.vowels/docs/articles/Rotation.html). 
+These are rough notes, before I head off for parental leave!
+
+The experimental `mds_test()` function now takes dissimilarity matrices rather
+than similarity matrices (to match the standard use of `smacof::smacofSym()`).
+
+Finally, I've added a workshop on the 'model-to-PCA' workflow we often use this
+package for. Read it [here](file:///Users/jbl91/UC%20Enterprise%20Dropbox/Joshua%20Wilson%20Black/projects/nzilbb.vowels/docs/articles/Model-to-PCA-workflow.html)
