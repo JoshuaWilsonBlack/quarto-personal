@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ready Player Me Blendshape Animation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    a {
+      color: #60a5fa;
+    }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #111827;
+      color: white;
+      display: flex;
+      flex-direction: row; /* Change from column to row */
+      height: 100vh;
+      overflow: hidden;
+    }
+    .header {
+      background: #191818;
+      padding: 1rem;
+      box-shadow: -2px 0 4px rgba(0,0,0,0.3); /* Shadow on left instead of bottom */
+      width: 20%; /* Fixed width for the sidebar */
+      height: 100vh; /* Full viewport height */
+      max-height: none; /* Remove the max-height restriction */
+      overflow-y: auto;
+      position: fixed; /* Fix it to the viewport */
+      right: 0; /* Align to right edge */
+      top: 0;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .info-box {
+      background:#191818;
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+    }
+    .info-box p {
+      color: #bfdbfe;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+    .info-box ol {
+      color: #bfdbfe;
+      font-size: 0.875rem;
+      margin-left: 1.25rem;
+    }
+    .info-box ol li {
+      margin-bottom: 0.25rem;
+    }
+    .info-box a {
+      color: #60a5fa;
+      text-decoration: underline;
+    }
+    .url-input-group {
+      display: block;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .url-input-group input {
+      padding: 0.5rem;
+      background: #374151;
+      color: white;
+      border: 1px solid #4b5563;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+    }
+    .url-input-group button {
+      padding: 0.5rem 1.5rem;
+      background: #585C1F;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .url-input-group button:hover {
+      background: #585C1F;
+    }
+    .url-input-group button:disabled {
+      background: #4b5563;
+      cursor: not-allowed;
+    }
+    .error {
+      background: #7f1d1d;
+      color: #fecaca;
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+    .controls-panel {
+      padding: 1rem;
+      border-bottom: 1px solid #374151;
+    }
+    .control-group {
+      margin-bottom: 1rem;
+    }
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+    .control-group label {
+      display: block;
+      color: #e5e7eb;
+      font-size: 2rem;
+      margin-bottom: 0.375rem;
+      font-weight: 500;
+    }
+    .control-group select {
+      width: 100%;
+      padding: 0.5rem;
+      background: #374151;
+      color: white;
+      border: 1px solid #4b5563;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+    }
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .slider-container input[type="range"] {
+      flex: 1;
+    }
+    .slider-value {
+      color: #60a5fa;
+      font-weight: 600;
+      min-width: 3rem;
+      text-align: right;
+      font-size: 0.875rem;
+    }
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .button-group button {
+      padding: 0.5rem 1rem;
+      background: #585C1F;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .button-group button:hover {
+      background:rgb(52, 54, 14);
+    }
+    #container {
+      flex: 1;
+      position: relative;
+      cursor: grab;
+      margin-right: 20%; /* Add margin to account for fixed sidebar width */
+    }
+    #container:active {
+      cursor: grabbing;
+    }
+    #loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #585C1F;
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    
+    <div class="controls-panel" id="controls" style="display: none;">
+      
+      <div class="control-group">
+        <label for="pc1-slider">PC1:</label>
+        <div class="slider-container">
+          <input type="range" id="pc1-slider" min="-3" max="3" step="0.1" value="0">
+          <span class="slider-value" id="pc1-value">0.00</span>
+        </div>
+        <label for="pc2-slider">PC2:</label>
+        <div class="slider-container">
+          <input type="range" id="pc2-slider" min="-3" max="3" step="0.1" value="0">
+          <span class="slider-value" id="pc2-value">0.00</span>
+        </div>
+        <label for="pc3-slider">PC3:</label>
+        <div class="slider-container">
+          <input type="range" id="pc3-slider" min="-3" max="3" step="0.1" value="0">
+          <span class="slider-value" id="pc3-value">0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="url-input-group">
+      <div>This model was created using <a href="https://readyplayer.me">Ready Player Me</a>, a service for creating 3D avatars.</div>
+      <div>You can create your own model and load it here:</div>
+      <input 
+        type="text" 
+        id="model-url" 
+        placeholder="https://models.readyplayer.me/your-avatar-id.glb"
+        value="">
+      <button id="load-btn">Load Model</button>
+    </div>
+
+    <div id="error-msg" class="error" style="display: none;"></div>
+  </div>
+  
+  <div id="container">
+    <div id="loading" style="display: none;">Loading model...</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+  <script>
+    // DOM elements
+    const container = document.getElementById('container');
+    const modelUrlInput = document.getElementById('model-url');
+    const loadBtn = document.getElementById('load-btn');
+    const loadingEl = document.getElementById('loading');
+    const errorMsg = document.getElementById('error-msg');
+    const controlsPanel = document.getElementById('controls');
+    const pc1Slider = document.getElementById('pc1-slider');
+    const pc1Value = document.getElementById('pc1-value');
+    const pc2Slider = document.getElementById('pc2-slider');
+    const pc2Value = document.getElementById('pc2-value');
+    const pc3Slider = document.getElementById('pc3-slider');
+    const pc3Value = document.getElementById('pc3-value');
+
+    let scene, camera, renderer, controls;
+    let headMesh = null;
+    let model = null;
+    let blendshapePCA = null;
+    let availableBlendshapes = [];
+
+    // Initialize Three.js scene
+    function initScene() {
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xF5F5F5);
+
+      camera = new THREE.PerspectiveCamera(
+        45,
+        container.clientWidth / container.clientHeight,
+        0.1,
+        1000
+      );
+      camera.position.set(0, 0, 0.4);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      container.appendChild(renderer.domElement);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.target.set(0, 0, 0);
+
+      // Lighting - three-point setup
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
+
+      const keyLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      keyLight.position.set(1, 1, 1);
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0x6c63ff, 0.3);
+      fillLight.position.set(-1, 0, -1);
+      scene.add(fillLight);
+
+      const backLight = new THREE.DirectionalLight(0xffffff, 0.2);
+      backLight.position.set(0, 1, -1);
+      scene.add(backLight);
+
+      // Start animation loop
+      animate();
+
+      // Handle resize
+      window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      });
+    }
+
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    // Load model
+    function loadModel(url) {
+        showLoading(true);
+        hideError();
+        controlsPanel.style.display = 'none';
+
+        // Remove previous model completely
+        if (model) {
+            scene.remove(model);
+            model = null;
+            headMesh = null;
+        }
+
+      const loader = new THREE.GLTFLoader();
+
+      loader.load(
+        url,
+        (gltf) => {
+          console.log('Model loaded successfully');
+          model = gltf.scene;
+
+          // Find mesh with morph targets
+          let foundMesh = null;
+          model.traverse((child) => {
+            if (child.isMesh && child.morphTargetInfluences && child.morphTargetInfluences.length > 0) {
+              foundMesh = child;
+              console.log('Found mesh with morph targets:', child.name);
+              console.log('Morph targets:', Object.keys(child.morphTargetDictionary || {}));
+            }
+          });
+
+          if (foundMesh) {
+            headMesh = foundMesh;
+            availableBlendshapes = Object.keys(headMesh.morphTargetDictionary || {})
+              .filter(key => !key.startsWith("viseme"));
+
+            // Reset all influences
+            headMesh.morphTargetInfluences.fill(0);
+
+            
+            // Add model to scene
+            scene.add(model);
+
+            // Center and scale model
+            const box = new THREE.Box3().setFromObject(model);
+            const center = box.getCenter(new THREE.Vector3());
+            const size = box.getSize(new THREE.Vector3());
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const scale = 2 / maxDim;
+            model.scale.multiplyScalar(scale);
+            box.setFromObject(model);
+            box.getCenter(center);
+            model.position.sub(center);
+            
+            // Find the head bone and position it at origin
+            const leftEye = model.getObjectByName('LeftEye')
+            const rightEye = model.getObjectByName('RightEye')
+            
+            if (leftEye) {
+              const leftEyePosition = new THREE.Vector3();
+              leftEye.getWorldPosition(leftEyePosition);
+              const rightEyePosition = new THREE.Vector3();
+              rightEye.getWorldPosition(rightEyePosition);
+              middleOfEyes = leftEyePosition.clone().lerp(rightEyePosition, 0.5);
+              model.position.sub(middleOfEyes);
+              console.log('Middle of eyes positioned at origin');
+            } else {
+              console.warn('Head bone not found, using bounding box top instead');
+              // Alternative: position top of bounding box at origin
+              model.position.y += size.y * scale / 2;
+            }
+            
+
+            console.log('Setup complete. Found', availableBlendshapes.length, 'blendshapes');
+
+            if (blendshapePCA) {
+                console.log('CSV already loaded');
+                document.getElementById('controls').style.display = 'block';
+                calculateBlendshape(blendshapePCA);
+                // Set influences to PCA centre...
+                // Presumably if model loads before csv, we set the
+                // influences in the data load section as well.
+            }
+          } else {
+            showError('No mesh with morph targets found in the model.');
+          }
+
+          showLoading(false);
+        },
+        (progress) => {
+          const percent = (progress.loaded / progress.total * 100).toFixed(0);
+          console.log('Loading:', percent + '%');
+        },
+        (error) => {
+          console.error('Error loading model:', error);
+          showError('Failed to load model. Check the URL and ensure CORS is enabled.');
+          showLoading(false);
+        }
+      );
+    }
+
+    /**
+     * Parse blendshape CSV data and organize by sequence
+     * @param {string} csvString - The raw CSV content
+     * @returns {Object} - Organized data structure with sequences
+     */
+
+    function parseBlendshapePCA(csvString) {
+        const results = Papa.parse(csvString, {
+            header: true,              // First row contains column names
+            dynamicTyping: true,       // Auto-convert numbers
+            skipEmptyLines: true,      // Ignore empty rows
+            trimHeaders: true          // Remove whitespace from headers
+        });
+
+        if (results.errors.length > 0) {
+            console.error('CSV parsing errors:', results.errors);
+        }
+
+        // Organize data by centre and PCs
+        const pca_data = {};
+        
+        results.data.forEach(row => {
+            const pc = row.value
+            
+            if (!pca_data[pc]) {
+                pca_data[pc] = [];
+            }
+            
+            // Store the entire row (contains all blendshape coefficients)
+            pca_data[pc].push({
+                ...row  // Includes all blendshape coefficients
+            });
+        });
+
+        console.log(`Parsed ${Object.keys(pca_data).length} PCs`);
+
+        return pca_data;
+    }
+
+    // Add an apply PC function.
+    function calculateBlendshape(pca_data) {
+      // Recalculate each time a slider is moved?
+      // vs. just modify current influences?
+      // Latter requires less awareness of the other sliders.
+      if (!headMesh) return;
+
+      const pc1 = parseFloat(pc1Slider.value);
+      const pc2 = parseFloat(pc2Slider.value);
+      const pc3 = parseFloat(pc3Slider.value);
+
+      pc1Value.textContent = pc1.toFixed(2);
+      pc2Value.textContent = pc2.toFixed(2);
+      pc3Value.textContent = pc3.toFixed(2);
+
+      const influences = headMesh.morphTargetInfluences;
+      const dictionary = headMesh.morphTargetDictionary;
+
+      // Get the data rows (assuming one row per component)
+      const centre = pca_data['centre'][0];
+      const PC1 = pca_data['PC1'][0];
+      const PC2 = pca_data['PC2'][0];
+      const PC3 = pca_data['PC3'][0];
+
+      // Get all blendshape names (exclude the 'value' column)
+      const blendshapeNames = Object.keys(centre).filter(key => key !== 'value');
+
+      // Calculate combined blendshape coefficients
+      blendshapeNames.forEach(blendshapeName => {
+        // Perform vector addition: centre + pc1*PC1 + pc2*PC2 + pc3*PC3
+        const coefficient = 
+            centre[blendshapeName] + 
+            pc1 * PC1[blendshapeName] + 
+            pc2 * PC2[blendshapeName] + 
+            pc3 * PC3[blendshapeName];
+
+        // Apply to the mesh if this blendshape exists in the model
+        if (blendshapeName in dictionary) {
+            const index = dictionary[blendshapeName];
+            influences[index] = coefficient;
+        }
+      });
+    }
+
+    // UI helpers
+    function showLoading(show) {
+      loadingEl.style.display = show ? 'block' : 'none';
+      loadBtn.disabled = show;
+    }
+
+    function showError(message) {
+      errorMsg.textContent = message;
+      errorMsg.style.display = 'block';
+    }
+
+    function hideError() {
+      errorMsg.style.display = 'none';
+    }
+
+    // Event listeners
+    loadBtn.addEventListener('click', () => {
+      const url = modelUrlInput.value.trim();
+      if (url) {
+        loadModel(url);
+      }
+    });
+
+
+    // TODO: replace with set up sliders.
+    function setupSliders(pca_data) {
+      pc1Slider.addEventListener('input', () => calculateBlendshape(pca_data));
+      pc2Slider.addEventListener('input', () => calculateBlendshape(pca_data));
+      pc3Slider.addEventListener('input', () => calculateBlendshape(pca_data));
+    }
+
+    // Initialize
+    initScene();
+    loadModel('char.glb');
+
+    // Load CSV file
+    fetch('pca_data.csv')
+        .then(response => response.text())
+        .then(csvString => {
+            blendshapePCA = parseBlendshapePCA(csvString);
+            setupSliders(blendshapePCA);
+            document.getElementById('controls').style.display = 'block';
+            if (headMesh) {
+                console.log('headMesh:', headMesh);
+                console.log('Has morphTargetInfluences?', headMesh?.morphTargetInfluences);
+                calculateBlendshape(blendshapePCA)
+            }
+            
+            // Now you can access sequences like: blendshapeSequences['sequence_1']
+        })
+        .catch(error => console.error('Error loading CSV:', error));
+
+    
+  </script>
+</body>
+</html>
