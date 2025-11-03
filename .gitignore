@@ -5,3 +5,5 @@
 /.quarto/
 .httr-oauth
 .DS_Store
+
+**/*.quarto_ipynb
