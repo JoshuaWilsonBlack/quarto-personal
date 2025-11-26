@@ -473,11 +473,13 @@
       // Calculate combined blendshape coefficients
       blendshapeNames.forEach(blendshapeName => {
         // Perform vector addition: centre + pc1*PC1 + pc2*PC2 + pc3*PC3
-        const coefficient = 
+        let coefficient = 
             centre[blendshapeName] + 
             pc1 * PC1[blendshapeName] + 
             pc2 * PC2[blendshapeName] + 
             pc3 * PC3[blendshapeName];
+
+        coefficient = Math.max(0, Math.min(1, coefficient));
 
         // Apply to the mesh if this blendshape exists in the model
         if (blendshapeName in dictionary) {
@@ -523,7 +525,7 @@
     loadModel('char.glb');
 
     // Load CSV file
-    fetch('pca_data.csv')
+    fetch('pca_data_qb1.csv')
         .then(response => response.text())
         .then(csvString => {
             blendshapePCA = parseBlendshapePCA(csvString);
