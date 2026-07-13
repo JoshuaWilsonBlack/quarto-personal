@@ -1,3 +1,5 @@
+2026 | Diploma in Languages | Te Reo Māori | University of Canterbury
+
 2021 | Master of Applied Data Science (with Distinction) | Data Science | University of Canterbury
 
 2017 | Doctor of Philosophy | Philosophy | University of Sheffield
